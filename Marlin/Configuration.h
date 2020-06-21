@@ -2235,6 +2235,19 @@
 //#define TFT_CLASSIC_UI
 //#define TFT_COLOR_UI
 //#define TFT_LVGL_UI
+#ifndef UI_SELECTION  //for building 2 UIs via platformIO
+  #define UI_SELECTION 1
+#endif
+
+#if UI_SELECTION==1
+  #define TFT_COLOR_UI //@@SapphirePro - Classic Marlin menu-driven UI
+#elif UI_SELECTION==2
+  #define TFT_LVGL_UI
+#elif UI_SELECTION==3
+  #define TFT_CLASSIC_UI
+#else
+  #error "Select UI [1|2|3] -DUI_SELECTION=1"
+#endif
 
 /**
  * TFT Rotation. Set to one of the following values:
