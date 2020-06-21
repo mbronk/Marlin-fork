@@ -289,66 +289,66 @@
   #define W25QXX_SCK_PIN                    PB13
 #endif
 
-// //
-// //TMC UART RX / TX Pins
-// //
-// #if HAS_TMC220x
-//   //
-//   // TMC2208/TMC2209 stepper drivers
-//   //
-//   // Hardware serial communication ports.
-//   // If undefined software serial is used according to the pins below
-//   //
-//   //#define Y_HARDWARE_SERIAL  Serial1
-//   //#define Z_HARDWARE_SERIAL  Serial1
-//   //#define E0_HARDWARE_SERIAL Serial1
-//   //#define X_HARDWARE_SERIAL  Serial1
-//   //
-//   // Software serial
-//   // 
-//   // MKS Robin Nano v1.2 connectors pinout (https://bit.ly/2YmegZy)
-//   // Extruder1:  
-//   //  - [PA3 | PA6 | PA1 | GND]
-//   // Endstop connectors:
-//   //  * X-STOP:  PA15 | GND | 5V
-//   //  * Y-STOP:  PA12 | GND | 5V
-//   //  * Z-:      PA11 | GND | 5V   
-//   //  - Z+:      PC4  | GND | 5V    <-- not used
-//   //  - PW_DET:  PA2  | GND | 5V    
-//   //  * MT_DET1: PA4  | GND | 5V    <-- filament runout sensor #1
-//   //  - MT_DET2: PE6  | GND | 5V    <-- filament runout sensor #2 (repurposed for SW Serial RX) 
-//   //  - PB2:     PB2  | GND | 5V    <-- autooff (repurposed for SW Serial TX)
-//   //
-//   // E1 Pins (PA3 | PA6) are workable for SW serial and are(?) interrupt-capable. Likely single pin for both RX/TX will work as well (PE6|PB2 might also work)
-//   // 
-//   #ifndef X_SERIAL_TX_PIN
-//     #define X_SERIAL_TX_PIN  PA3 //PA3=TX
-//   #endif
-//   #ifndef X_SERIAL_RX_PIN
-//     #define X_SERIAL_RX_PIN  PA6 //PA6=RX
-//   #endif
+//
+//TMC UART RX / TX Pins  //@@TMC-UART
+//
+#if HAS_TMC220x
+  //
+  // TMC2208/TMC2209 stepper drivers
+  //
+  // Hardware serial communication ports.
+  // If undefined software serial is used according to the pins below
+  //
+  //#define Y_HARDWARE_SERIAL  Serial1
+  //#define Z_HARDWARE_SERIAL  Serial1
+  //#define E0_HARDWARE_SERIAL Serial1
+  //#define X_HARDWARE_SERIAL  Serial1
+  //
+  // Software serial
+  // 
+  // MKS Robin Nano v1.2 connectors pinout (https://bit.ly/2YmegZy)
+  // Extruder1:  
+  //  - [PA3 | PA6 | PA1 | GND]
+  // Endstop connectors:
+  //  * X-STOP:  PA15 | GND | 5V
+  //  * Y-STOP:  PA12 | GND | 5V
+  //  * Z-:      PA11 | GND | 5V   
+  //  - Z+:      PC4  | GND | 5V    <-- not used
+  //  - PW_DET:  PA2  | GND | 5V    
+  //  * MT_DET1: PA4  | GND | 5V    <-- filament runout sensor #1
+  //  - MT_DET2: PE6  | GND | 5V    <-- filament runout sensor #2 (repurposed for SW Serial RX) 
+  //  - PB2:     PB2  | GND | 5V    <-- autooff (repurposed for SW Serial TX)
+  //
+  // E1 Pins (PA3 | PA6) are workable for SW serial and are(?) interrupt-capable. Likely single pin for both RX/TX will work as well (PE6|PB2 might also work)
+  // 
+  #ifndef X_SERIAL_TX_PIN
+    #define X_SERIAL_TX_PIN  PA3 //PA3=TX
+  #endif
+  #ifndef X_SERIAL_RX_PIN
+    #define X_SERIAL_RX_PIN  PA6 //PA6=RX
+  #endif
 
-//   #ifndef Y_SERIAL_TX_PIN
-//     #define Y_SERIAL_TX_PIN  PA3
-//   #endif
-//   #ifndef Y_SERIAL_RX_PIN
-//     #define Y_SERIAL_RX_PIN  PA6
-//   #endif
+  #ifndef Y_SERIAL_TX_PIN
+    #define Y_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Y_SERIAL_RX_PIN
+    #define Y_SERIAL_RX_PIN  PA6
+  #endif
 
-//   #ifndef Z_SERIAL_TX_PIN
-//     #define Z_SERIAL_TX_PIN  PA3
-//   #endif
-//   #ifndef Z_SERIAL_RX_PIN
-//     #define Z_SERIAL_RX_PIN  PA6
-//   #endif
+  #ifndef Z_SERIAL_TX_PIN
+    #define Z_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Z_SERIAL_RX_PIN
+    #define Z_SERIAL_RX_PIN  PA6
+  #endif
 
-//   #ifndef E0_SERIAL_TX_PIN
-//     #define E0_SERIAL_TX_PIN PA3
-//   #endif
-//   #ifndef E0_SERIAL_RX_PIN
-//     #define E0_SERIAL_RX_PIN PA6
-//   #endif
+  #ifndef E0_SERIAL_TX_PIN
+    #define E0_SERIAL_TX_PIN PA3
+  #endif
+  #ifndef E0_SERIAL_RX_PIN
+    #define E0_SERIAL_RX_PIN PA6
+  #endif
 
-//   // Reduce baud rate to improve software serial reliability
-//   #define TMC_BAUD_RATE 19200
-// #endif
+  // Reduce baud rate to improve software serial reliability //@@TMC-UART
+  #define TMC_BAUD_RATE 19200
+#endif
