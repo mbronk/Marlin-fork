@@ -29,6 +29,10 @@
   #define PGM_P const char *
 #endif
 
+#ifndef PGM_P
+  #define PGM_P const char *  //@@ hacky compilation fix for MKS Robin Nano/PlatformIO
+#endif
+
 extern void lv_draw_error_message(PGM_P const msg);
 extern void lv_clear_error_message();
 
