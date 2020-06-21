@@ -1,0 +1,69 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches:
+    - bugfix-2.0.x
+    - SapphirePRO/bugfix-2.0.x
+    - SapphirePRO_stock/bugfix-2.0.x
+  pull_request:
+    branches:
+    - bugfix-2.0.x
+    - SapphirePRO/bugfix-2.0.x
+    - SapphirePRO_stock/bugfix-2.0.x
+    paths-ignore:
+      - config/**
+      - data/**
+      - docs/**
+      - '**/*.md'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  test-build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        test-platform:
+        - mks_robin_nano35
+        
+    steps:
+    - name: Select Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
+    - name: Install PlatformIO
+      run: |
+        pip install -U https://github.com/platformio/platformio-core/archive/master.zip
+        platformio update
+
+    - name: Check out the PR
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      uses: actions/checkout@v2
+
+    - name: Install library dependencies
+      run: platformio lib -g install 1
+
+    - name: Run PlatformIO build for ${{ matrix.test-platform }}
+      run: platformio run -e ${{ matrix.test-platform }}
+
+    - uses: actions/upload-artifact@v2
+      with:
+        path: .pio/build/mks_robin_nano35/Robin_nano35.bin
+
+    # - name: Run ${{ matrix.test-platform }} Tests
+    #   run: |
+    #     # Inline tests script
+    #     [[ "$GITHUB_REPOSITORY" == "mbronk/Marlin-fork" ]] || exit 0
+    #     chmod +x buildroot/bin/*
+    #     chmod +x buildroot/share/tests/*
+    #     export PATH=./buildroot/bin/:./buildroot/share/tests/:${PATH}
+    #     run_tests . ${{ matrix.test-platform }}
