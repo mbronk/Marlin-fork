@@ -39,7 +39,7 @@
 // pinout of the dedicated jumper set:  (power)<---- [GND | 5V | PA8] ---->(endstops)
 // WARNING: There are differences between Robin Nano 1.1 and 1.2 (https://bit.ly/37N6IC5)
 //
-//#define SERVO0_PIN                          PA8   // BLTOUCH //@@SapphirePro
+#define SERVO0_PIN                          PA8   // @@BLTOUCH //@@SapphirePro
 
 //
 // Release PB4 (Y_ENABLE_PIN) from JTAG NRST role
