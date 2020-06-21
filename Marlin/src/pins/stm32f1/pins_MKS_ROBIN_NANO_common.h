@@ -45,14 +45,24 @@
   #define EEPROM_PAGE_SIZE     (0x800U) // 2KB
   #define EEPROM_START_ADDRESS (0x8000000UL + (STM32_FLASH_SIZE) * 1024UL - (EEPROM_PAGE_SIZE) * 2UL)
   #define MARLIN_EEPROM_SIZE    EEPROM_PAGE_SIZE  // 2KB
+#endif //alternatively -> #define SDCARD_EEPROM_EMULATION //@@?
+
+#if HOTENDS > 2 || E_STEPPERS > 2
+  #error "MKS Robin nano supports up to 2 hotends / E-steppers. Comment out this line to continue."
 #endif
 
-#define SPI_DEVICE                             2
+//MKS Robin Nano v1.2 pinout: https://bit.ly/2YmegZy //@@SapphirePro
+
+#define SPI_DEVICE                             2  //@@ was:ENABLE_SPI2
 
 //
 // Servos
 //
-#define SERVO0_PIN                          PA8   // Enable BLTOUCH
+/*
+   Pinout of the dedicated jumper set:  (power)<---- [GND | 5V | PA8] ---->(endstops)
+   WARNING: There are differences between Robin Nano 1.1 and 1.2 (https://bit.ly/37N6IC5)
+*/
+#define SERVO0_PIN                          PA8   // Enable BLTOUCH //@@BLTOUCH //@@SapphirePro
 
 //
 // Limit Switches
@@ -134,13 +144,16 @@
 // Misc. Functions
 //
 #if HAS_TFT_LVGL_UI
-  #define MT_DET_1_PIN                      PA4
+  #define MT_DET_1_PIN                      PA4   // LVGL UI FILAMENT RUNOUT1 PIN
   #define MT_DET_2_PIN                      PE6
   #define MT_DET_PIN_STATE                  LOW
 
   #define WIFI_IO0_PIN                      PC13
   #define WIFI_IO1_PIN                      PC7
   #define WIFI_RESET_PIN                    PA5
+  // #ifndef FIL_RUNOUT_PIN  //@@SapphirePro - allow compile with MKS UI
+  //   #define FIL_RUNOUT_PIN                    PA4
+  // #endif
 #else
   //#define POWER_LOSS_PIN                  PA2   // PW_DET
   //#define PS_ON_PIN                       PB2   // PW_OFF
@@ -156,7 +169,7 @@
 #endif
 
 #define SDIO_SUPPORT
-#define SDIO_CLOCK                       4500000  // 4.5 MHz
+#define SDIO_CLOCK                       4500000  // 4.5 MHz //@@? - 18Mhz reportedly causes I/O errrors (random printhead movement)
 #define SD_DETECT_PIN                       PD12
 #define ONBOARD_SD_CS_PIN                   PC11
 
@@ -200,6 +213,50 @@
   #define TFT_BUFFER_SIZE                  14400
 #endif
 
+/* TODO!!!
+// XPT2046 Touch Screen calibration
+#if EITHER(TFT_LVGL_UI_FSMC, TFT_480x320)
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION          17880
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION         -12234
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 -45
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+   #define XPT2046_Y_OFFSET                  349
+  #endif
+#elif ENABLED(TFT_CLASSIC_UI)
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION          12149
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION          -8746
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 -35
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET                 256
+  #endif
+#elif ENABLED(TFT_320x240)
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION         -12246
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION           9453
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 360
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET                 -22
+  #endif
+#endif
+*/
+
 #define HAS_SPI_FLASH                          1
 #if HAS_SPI_FLASH
   #define SPI_FLASH_SIZE               0x1000000  // 16MB
@@ -207,4 +264,68 @@
   #define SPI_FLASH_MOSI_PIN                PB15
   #define SPI_FLASH_MISO_PIN                PB14
   #define SPI_FLASH_SCK_PIN                 PB13
+#endif
+
+//
+//TMC UART RX / TX Pins  //@@TMC-UART
+//
+#if HAS_TMC220x  //HAS_TMC_UART
+  //
+  // TMC2208/TMC2209 stepper drivers
+  //
+  // Hardware serial communication ports.
+  // If undefined software serial is used according to the pins below
+  //
+  //#define Y_HARDWARE_SERIAL  Serial1
+  //#define Z_HARDWARE_SERIAL  Serial1
+  //#define E0_HARDWARE_SERIAL Serial1
+  //#define X_HARDWARE_SERIAL  Serial1
+  //
+  // Software serial
+  // 
+  // MKS Robin Nano v1.2 connectors pinout (https://bit.ly/2YmegZy)
+  // Extruder1:  
+  //  - [PA3 | PA6 | PA1 | GND]
+  // Endstop connectors:
+  //  * X-STOP:  PA15 | GND | 5V
+  //  * Y-STOP:  PA12 | GND | 5V
+  //  * Z-:      PA11 | GND | 5V   
+  //  - Z+:      PC4  | GND | 5V    <-- not used
+  //  - PW_DET:  PA2  | GND | 5V    
+  //  * MT_DET1: PA4  | GND | 5V    <-- filament runout sensor #1
+  //  - MT_DET2: PE6  | GND | 5V    <-- filament runout sensor #2 (repurposed for SW Serial RX) 
+  //  - PB2:     PB2  | GND | 5V    <-- autooff (repurposed for SW Serial TX)
+  //
+  // E1 Pins (PA3 | PA6) are workable for SW serial and are(?) interrupt-capable. Likely single pin for both RX/TX will work as well (PE6|PB2 might also work)
+  // 
+  #ifndef X_SERIAL_TX_PIN
+    #define X_SERIAL_TX_PIN  PA3 //PA3=TX
+  #endif
+  #ifndef X_SERIAL_RX_PIN
+    #define X_SERIAL_RX_PIN  PA6 //PA6=RX
+  #endif
+
+  #ifndef Y_SERIAL_TX_PIN
+    #define Y_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Y_SERIAL_RX_PIN
+    #define Y_SERIAL_RX_PIN  PA6
+  #endif
+
+  #ifndef Z_SERIAL_TX_PIN
+    #define Z_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Z_SERIAL_RX_PIN
+    #define Z_SERIAL_RX_PIN  PA6
+  #endif
+
+  #ifndef E0_SERIAL_TX_PIN
+    #define E0_SERIAL_TX_PIN PA3
+  #endif
+  #ifndef E0_SERIAL_RX_PIN
+    #define E0_SERIAL_RX_PIN PA6
+  #endif
+
+  // Reduce baud rate to improve software serial reliability //@@TMC-UART
+  #define TMC_BAUD_RATE 19200
 #endif
