@@ -45,6 +45,7 @@
 #if ENABLED(PARK_HEAD_ON_PAUSE)
   #include "../../../../feature/pause.h"
 #endif
+#include "draw_ui.h"  //@@ (hacky) Compilation fix
 
 CFG_ITMES gCfgItems;
 UI_CFG uiCfg;

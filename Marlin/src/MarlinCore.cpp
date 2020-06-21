@@ -61,8 +61,8 @@
 
 #if ENABLED(TFT_LITTLE_VGL_UI)
   #include "lvgl.h"
-  #include "lcd/extui/lib/mks_ui/inc/tft_lvgl_configuration.h"
-  #include "lcd/extui/lib/mks_ui/inc/draw_ui.h"
+  #include "lcd/extui/lib/mks_ui/tft_lvgl_configuration.h"  //@@header location fix
+  #include "lcd/extui/lib/mks_ui/draw_ui.h" //@@header location fix
 #endif
 
 #if ENABLED(DWIN_CREALITY_LCD)
