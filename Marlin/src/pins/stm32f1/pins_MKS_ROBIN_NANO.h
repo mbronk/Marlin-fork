@@ -31,6 +31,7 @@
   #error "MKS Robin nano supports up to 2 hotends / E-steppers. Comment out this line to continue."
 #endif
 
+//MKS Robin Nano v1.2 pinout: https://bit.ly/2YmegZy //@@SapphirePro
 #define BOARD_INFO_NAME "MKS Robin Nano"
 
 //
@@ -46,7 +47,7 @@
   #define EEPROM_PAGE_SIZE     (0x800U) // 2KB
   #define EEPROM_START_ADDRESS (0x8000000UL + (STM32_FLASH_SIZE) * 1024UL - (EEPROM_PAGE_SIZE) * 2UL)
   #define MARLIN_EEPROM_SIZE    EEPROM_PAGE_SIZE  // 2KB
-#endif
+#endif //alternatively -> #define SDCARD_EEPROM_EMULATION //@@?
 
 #define ENABLE_SPI2
 
@@ -129,6 +130,8 @@
   #endif
 
   #define MT_DET_1_PIN                      PA4   // LVGL UI FILAMENT RUNOUT1 PIN
+  #define FIL_RUNOUT_PIN                    PA4   //@@? TODO: this is likely syperflous - need to disable 'old' fil runout sensor if MKS UI is in use!!
+
   #define MT_DET_2_PIN                      PE6   // LVGL UI FILAMENT RUNOUT2 PIN
   #define MT_DET_PIN_INVERTING             false  // LVGL UI filament RUNOUT PIN STATE
 
@@ -142,7 +145,13 @@
   #define FIL_RUNOUT2_PIN                   PE6
 #endif
 
-#define SERVO0_PIN                          PA8   // Enable BLTOUCH support
+//
+// BLTOUCH
+// pinout of the dedicated jumper set:  (power)<---- [GND | 5V | PA8] ---->(endstops)
+// WARNING: There are differences between Robin Nano 1.1 and 1.2 (https://bit.ly/37N6IC5)
+//
+#define SERVO0_PIN                          PA8   // Enable BLTOUCH support - @@BLTOUCH //@@SapphirePro
+
 
 //#define LED_PIN                           PB2
 
@@ -154,7 +163,7 @@
 #endif
 
 #define SDIO_SUPPORT
-#define SDIO_CLOCK                       4500000  // 4.5 MHz
+#define SDIO_CLOCK                       4500000  // 4.5 MHz //@@? - 18Mhz reportedly causes I/O errrors (random printhead movement)
 #define SD_DETECT_PIN                       PD12
 #define ONBOARD_SD_CS_PIN                   PC11
 
@@ -246,4 +255,68 @@
   #define W25QXX_MOSI_PIN                   PB15
   #define W25QXX_MISO_PIN                   PB14
   #define W25QXX_SCK_PIN                    PB13
+#endif
+
+//
+//TMC UART RX / TX Pins  //@@TMC-UART
+//
+#if HAS_TMC220x
+  //
+  // TMC2208/TMC2209 stepper drivers
+  //
+  // Hardware serial communication ports.
+  // If undefined software serial is used according to the pins below
+  //
+  //#define Y_HARDWARE_SERIAL  Serial1
+  //#define Z_HARDWARE_SERIAL  Serial1
+  //#define E0_HARDWARE_SERIAL Serial1
+  //#define X_HARDWARE_SERIAL  Serial1
+  //
+  // Software serial
+  // 
+  // MKS Robin Nano v1.2 connectors pinout (https://bit.ly/2YmegZy)
+  // Extruder1:  
+  //  - [PA3 | PA6 | PA1 | GND]
+  // Endstop connectors:
+  //  * X-STOP:  PA15 | GND | 5V
+  //  * Y-STOP:  PA12 | GND | 5V
+  //  * Z-:      PA11 | GND | 5V   
+  //  - Z+:      PC4  | GND | 5V    <-- not used
+  //  - PW_DET:  PA2  | GND | 5V    
+  //  * MT_DET1: PA4  | GND | 5V    <-- filament runout sensor #1
+  //  - MT_DET2: PE6  | GND | 5V    <-- filament runout sensor #2 (repurposed for SW Serial RX) 
+  //  - PB2:     PB2  | GND | 5V    <-- autooff (repurposed for SW Serial TX)
+  //
+  // E1 Pins (PA3 | PA6) are workable for SW serial and are(?) interrupt-capable. Likely single pin for both RX/TX will work as well (PE6|PB2 might also work)
+  // 
+  #ifndef X_SERIAL_TX_PIN
+    #define X_SERIAL_TX_PIN  PA3 //PA3=TX
+  #endif
+  #ifndef X_SERIAL_RX_PIN
+    #define X_SERIAL_RX_PIN  PA6 //PA6=RX
+  #endif
+
+  #ifndef Y_SERIAL_TX_PIN
+    #define Y_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Y_SERIAL_RX_PIN
+    #define Y_SERIAL_RX_PIN  PA6
+  #endif
+
+  #ifndef Z_SERIAL_TX_PIN
+    #define Z_SERIAL_TX_PIN  PA3
+  #endif
+  #ifndef Z_SERIAL_RX_PIN
+    #define Z_SERIAL_RX_PIN  PA6
+  #endif
+
+  #ifndef E0_SERIAL_TX_PIN
+    #define E0_SERIAL_TX_PIN PA3
+  #endif
+  #ifndef E0_SERIAL_RX_PIN
+    #define E0_SERIAL_RX_PIN PA6
+  #endif
+
+  // Reduce baud rate to improve software serial reliability //@@TMC-UART
+  #define TMC_BAUD_RATE 19200
 #endif
