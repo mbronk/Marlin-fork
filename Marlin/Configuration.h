@@ -2144,9 +2144,12 @@
 
 #if UI_SELECTION==1
   #define FSMC_GRAPHICAL_TFT //@@SapphirePro - Classic Marlin menu-driven UI
-#else
+#elif UI_SELECTION==2
   #define TFT_LITTLE_VGL_UI
+#else
+  #error "Select UI [1|2] -DUI_SELECTION=1"
 #endif
+
 
 //
 // FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
@@ -2176,7 +2179,7 @@
 #endif
 
 #if DISABLED(TFT_LITTLE_VGL_UI) && DISABLED(FSMC_GRAPHICAL_TFT)  //@@Naive assertions prompting to select one of the UIs
-  #error "Both MKS graphical UI and classic Marlin UI are disabled - pick one"
+  #error "Neither MKS graphical nor  classic Marlin UI are enabled - pick one"
 #elif ENABLED(TFT_LITTLE_VGL_UI) && ENABLED(FSMC_GRAPHICAL_TFT)
   #error "Both MKS graphical UI and classic Marlin UI are enabled - pick one"
 #endif
