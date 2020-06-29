@@ -32,7 +32,7 @@
 #endif
 
 //MKS Robin Nano v1.2 pinout: https://bit.ly/2YmegZy
-#define BOARD_INFO_NAME "MKS Robin nano"
+#define BOARD_INFO_NAME "MKS Robin Nano"
 
 //
 // BLTOUCH
@@ -49,19 +49,14 @@
 //
 // EEPROM
 //
-//WARNING: Hacky Flash-based EEPROM support (USE AT YOUR OWN RISK). Naively copied from pins_MKS_ROBIN_MINI.h & miracolously works - MAY HAVE SIDEEFFECTS!
-#define SAPPHIRE_PRO_HACKY_EEPROM_FLASH_SUPPORT 1  //@@SapphirePro
-
-#if ENABLED(SAPPHIRE_PRO_HACKY_EEPROM_FLASH_SUPPORT) //@@SapphirePro (whole section)
+//@@SapphirePro - consider #define FLASH_EEPROM_EMULATION
+#if EITHER(NO_EEPROM_SELECTED, FLASH_EEPROM_EMULATION)
   #define FLASH_EEPROM_EMULATION
-  // 2K in a AT24C16N
   #define EEPROM_PAGE_SIZE     (0x800U) // 2KB
   #define EEPROM_START_ADDRESS (0x8000000UL + (STM32_FLASH_SIZE) * 1024UL - (EEPROM_PAGE_SIZE) * 2UL)
-  #define MARLIN_EEPROM_SIZE    EEPROM_PAGE_SIZE  // 2KB
-#elif NO_EEPROM_SELECTED
-  //#define FLASH_EEPROM_EMULATION
-  #define SDCARD_EEPROM_EMULATION
+  #define MARLIN_EEPROM_SIZE   EEPROM_PAGE_SIZE  // 2KB
 #endif
+
 #define ENABLE_SPI2
 
 //
@@ -210,14 +205,14 @@
         #define LCD_PINS_D7                 PD10
       #endif
 
-      #ifndef ST7920_DELAY_1
-        #define ST7920_DELAY_1     DELAY_NS(125)
+      #ifndef BOARD_ST7920_DELAY_1
+        #define BOARD_ST7920_DELAY_1     DELAY_NS(125)
       #endif
-      #ifndef ST7920_DELAY_2
-        #define ST7920_DELAY_2     DELAY_NS(125)
+      #ifndef BOARD_ST7920_DELAY_2
+        #define BOARD_ST7920_DELAY_2     DELAY_NS(125)
       #endif
-      #ifndef ST7920_DELAY_3
-        #define ST7920_DELAY_3     DELAY_NS(125)
+      #ifndef BOARD_ST7920_DELAY_3
+        #define BOARD_ST7920_DELAY_3     DELAY_NS(125)
       #endif
 
     #endif // !MKS_MINI_12864
@@ -268,7 +263,7 @@
   #define FSMC_DMA_CHANNEL DMA_CH5 //@@SapphirePro
 
   //#define LCD_RESET_PIN                     PC6   // @@SapphirePro (setting 'LCD_RESET_PIN' causes flickering - ref: pins_MKS_ROBIN.h)
-  #define NO_LCD_REINIT                           // Suppress LCD re-initialization
+  #define NO_LCD_REINIT                           // @@SapphirePro Suppress LCD re-initialization
 
   #define LCD_BACKLIGHT_PIN                 PD13
 

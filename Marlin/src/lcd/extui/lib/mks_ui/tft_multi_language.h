@@ -21,7 +21,7 @@
  */
 #pragma once
 
-#include "tft_Language_en.h" //@@hacky fix for header location (removed 'inc/' prefix)
+#include "tft_Language_en.h"
 #include "tft_Language_s_cn.h"
 #include "tft_Language_t_cn.h"
 #include "tft_Language_ru.h"

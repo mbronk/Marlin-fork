@@ -28,7 +28,7 @@ extern "C" { /* C-declarations for C++ */
 #include <stdint.h>
 #include <string.h>
 #include "lvgl.h"
-#include "tft_multi_language.h"  //@@hacky fix for header location (removed 'inc/' prefix)
+#include "tft_multi_language.h"
 #include "draw_ready_print.h"
 #include "draw_language.h"
 #include "draw_set.h"

@@ -47,6 +47,8 @@
 #endif
 #include "draw_ui.h"  //@@ (hacky) Compilation fix
 
+#include "draw_ui.h"
+
 CFG_ITMES gCfgItems;
 UI_CFG uiCfg;
 DISP_STATE_STACK disp_state_stack;
