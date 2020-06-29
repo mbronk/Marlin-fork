@@ -481,11 +481,9 @@
 #define PID_MAX ((int)(0.90 * BANG_MAX)) // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current //@@SapphirePro: decreased to avoid temp. overshoot
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 
-#if ENABLED(PIDTEMP)
-  #if HAS_LCD_MENU //@@SapphirePro
-    //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-    #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM) //@@SapphirePro
-  #endif
+#if ENABLED(PIDTEMP)  
+  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
+  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM) //@@SapphirePro
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
@@ -1163,9 +1161,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  #if HAS_LCD_MENU
-    #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD //@@BLTouch
-  #endif
+  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD //@@BLTouch
 #endif
 
 /**
@@ -1185,11 +1181,7 @@
 
   // Set one or more commands to execute on filament runout.
   // (After 'M412 H' Marlin will ask the host to handle the process.)
-  #if HAS_LCD_MENU  //@@SapphirePro - TFT_LITTLE_VGL_UI does not currently support extra menus
-    #define FILAMENT_RUNOUT_SCRIPT "M600"
-  #else
-    #define FILAMENT_RUNOUT_SCRIPT ""
-  #endif
+  #define FILAMENT_RUNOUT_SCRIPT "M600"    
 
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
@@ -1351,22 +1343,16 @@
  * Add a bed leveling sub-menu for ABL or MBL.
  * Include a guided procedure if manual probing is enabled.
  */
-#if HAS_LCD_MENU //@@SapphirePro - TFT_LITTLE_VGL_UI does not currently support extra menus
-  #define LCD_BED_LEVELING //@@SapphirePro
-#endif
+#define LCD_BED_LEVELING //@@SapphirePro
 
 #if ENABLED(LCD_BED_LEVELING)
   #define MESH_EDIT_Z_STEP  0.020 // (mm) Step size while manually probing Z axis. //@@SapphirePro
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  #if HAS_LCD_MENU //@@SapphirePro
-    //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
-  #endif
+  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
-#if HAS_LCD_MENU
-  #define LEVEL_BED_CORNERS //@@SapphirePro
-#endif
+#define LEVEL_BED_CORNERS //@@SapphirePro
 
 #if ENABLED(LEVEL_BED_CORNERS)
   #define LEVEL_CORNERS_INSET_LFRB { 25, 25, 25, 25 } // (mm) Left, Front, Right, Back insets //@@SapphirePro
@@ -1784,9 +1770,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-#if HAS_LCD_MENU
-  #define INDIVIDUAL_AXIS_HOMING_MENU //@@SapphirePro
-#endif
+#define INDIVIDUAL_AXIS_HOMING_MENU //@@SapphirePro
 
 //
 // SPEAKER/BUZZER
@@ -2153,10 +2137,21 @@
 //=============================== Graphical TFTs ==============================
 //=============================================================================
 
+
+#ifndef UI_SELECTION  //for building 2 UIs via platformIO
+  #define UI_SELECTION 1
+#endif
+
+#if UI_SELECTION==1
+  #define FSMC_GRAPHICAL_TFT //@@SapphirePro - Classic Marlin menu-driven UI
+#else
+  #define TFT_LITTLE_VGL_UI
+#endif
+
 //
 // FSMC display (MKS Robin, Alfawise U20, JGAurora A5S, REXYZ A1, etc.)
 //
-#define FSMC_GRAPHICAL_TFT //@@SapphirePro - Classic Marlin menu-driven UI
+// #define FSMC_GRAPHICAL_TFT //@@SapphirePro - Classic Marlin menu-driven UI
 #if ENABLED(FSMC_GRAPHICAL_TFT)
   //
   // FSMC_UPSCALE 2 2x upscaler for 320x240 displays (default)
@@ -2172,7 +2167,13 @@
 // TFT Little VGL UI
 //
 // #define TFT_LITTLE_VGL_UI //@@SapphirePro - MKS graphical touch UI (simmilar to the one shipping with the printer, incl. print preview etc). Some options like ADVANCED_PAUSE are N/A
-
+#if ENABLED(TFT_LITTLE_VGL_UI)
+  #undef LCD_BED_LEVELING //@@SapphirePro - not working with TFT_LITTLE_VGL_UI
+  #ifdef FILAMENT_RUNOUT_SCRIPT //@@SapphirePro - not working with TFT_LITTLE_VGL_UI
+    #undef FILAMENT_RUNOUT_SCRIPT
+    #define FILAMENT_RUNOUT_SCRIPT "" 
+  #endif
+#endif
 
 #if DISABLED(TFT_LITTLE_VGL_UI) && DISABLED(FSMC_GRAPHICAL_TFT)  //@@Naive assertions prompting to select one of the UIs
   #error "Both MKS graphical UI and classic Marlin UI are disabled - pick one"
