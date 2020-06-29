@@ -32,6 +32,7 @@ jobs:
       matrix:
         test-platform:
         - mks_robin_nano35
+        ui_type: [1,2]
         
     steps:
     - name: Select Python 3.7
@@ -52,12 +53,18 @@ jobs:
     - name: Install library dependencies
       run: platformio lib -g install 1
 
-    - name: Run PlatformIO build for ${{ matrix.test-platform }}
-      run: platformio run -e ${{ matrix.test-platform }}
+    - name: Run PlatformIO build for ${{ matrix.test-platform }} - UI ${{matrix.ui_type}}
+      run: |
+        export PLATFORMIO_BUILD_FLAGS=-DUI_SELECTION=${{matrix.ui_type}}
+        platformio run -e ${{ matrix.test-platform }}
 
     - uses: actions/upload-artifact@v2
       with:
         path: .pio/build/mks_robin_nano35/Robin_nano35.bin
+
+    - uses: actions/upload-artifact@v2
+      with:
+        path: Firmware/*
 
     # - name: Run ${{ matrix.test-platform }} Tests
     #   run: |
