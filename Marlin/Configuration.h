@@ -2217,8 +2217,10 @@
 
 #if UI_SELECTION==1
   #define TFT_GENERIC //@@SapphirePro - Classic Marlin menu-driven UI
-#else
+#elif UI_SELECTION==2
   #define TFT_LVGL_UI
+#else
+  #error "Select UI [1|2] -DUI_SELECTION=1"
 #endif
 
 /**

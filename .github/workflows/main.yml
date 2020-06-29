@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI Build - SapphirePRO
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -59,15 +59,18 @@ jobs:
 
     - name: Run PlatformIO build for ${{ matrix.test-platform }} - UI ${{matrix.ui_type}}
       run: |
-        export PLATFORMIO_BUILD_FLAGS=-DUI_SELECTION=${{matrix.ui_type}}
+        export PLATFORMIO_BUILD_FLAGS="-DUI_SELECTION=${{matrix.ui_type}}"
         platformio run -e ${{ matrix.test-platform }}
 
     - uses: actions/upload-artifact@v2
       with:
+        name: SapphireProFW_UI_${{matrix.ui_type}}
         path: .pio/build/mks_robin_nano35/Robin_nano35.bin
 
     - uses: actions/upload-artifact@v2
+      if: matrix.ui_type == 2
       with:
+        name: SapphireProFW_UI_${{matrix.ui_type}}
         path: Firmware/*
 
     # - name: Run ${{ matrix.test-platform }} Tests
