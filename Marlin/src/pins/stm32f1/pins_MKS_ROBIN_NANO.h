@@ -263,6 +263,8 @@
     #define XPT2046_Y_OFFSET                 -22
   #endif
 #endif
+//#define NO_LCD_REINIT                           // @@SapphirePro - already defined in Conditionals_post.h
+
 
 #define HAS_SPI_FLASH                          1
 #if HAS_SPI_FLASH
