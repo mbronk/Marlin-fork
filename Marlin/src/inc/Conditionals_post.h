@@ -139,6 +139,7 @@
     #define CORE_AXIS_1 A_AXIS
     #define CORE_AXIS_2 B_AXIS
     #define NORMAL_AXIS Z_AXIS
+    #define NORMAL_AXIS_INDEX Z_AXIS_INDEX  //@@ hack (macro expansion issues)
   #elif CORE_IS_XZ
     #define CORE_AXIS_1 A_AXIS
     #define NORMAL_AXIS Y_AXIS
