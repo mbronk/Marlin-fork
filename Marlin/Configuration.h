@@ -850,7 +850,7 @@
 //#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN //@@BLTouch - probe connected to Z-MAX (Z-min still connected to microswitch)
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING //@@?BLTouch - consider
+//#define USE_PROBE_FOR_Z_HOMING //@@?BLTouch - consider  <- use for probe z-offset calibration
 
 /**
  * Z_MIN_PROBE_PIN
@@ -992,7 +992,8 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.405 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ; Z-offset calibration manual: https://letsprint3d.net/guide-how-to-calibrate-an-auto-bed-leveling-sensor/
+#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.73 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
+                                                  // Z-offset calibration manual: https://letsprint3d.net/guide-how-to-calibrate-an-auto-bed-leveling-sensor/
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
@@ -1137,7 +1138,7 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE //@@SapphirePro - consider adding +5
-#define Z_MAX_POS 225 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount)
+#define Z_MAX_POS 205 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -15mm for anti-backlash spring
 
 /**
  * Software Endstops
@@ -1394,8 +1395,13 @@
 #define Z_SAFE_HOMING //@@BLTouch - consider disabling (BLTouch is connected to X-MAX(!) and not used for homing)
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT (10)  // X point for Z homing  //@@BLTouch (default: X_CENTER)
-  #define Z_SAFE_HOMING_Y_POINT (210)  // Y point for Z homing //@@BLTouch (default: Y_CENTER)
+  #if DISABLED(USE_PROBE_FOR_Z_HOMING)
+  #define Z_SAFE_HOMING_X_POINT (10)  // X point for Z homing when homing all axes (G28).  //@@BLTouch (default: X_CENTER)
+  #define Z_SAFE_HOMING_Y_POINT (210)  // Y point for Z homing when homing all axes (G28). //@@BLTouch (default: Y_CENTER)
+  #else
+    #define Z_SAFE_HOMING_X_POINT (X_CENTER)  // X point for Z homing when homing all axes (G28).  //@@BLTouch (default: X_CENTER)
+    #define Z_SAFE_HOMING_Y_POINT (Y_CENTER)  // Y point for Z homing when homing all axes (G28). //@@BLTouch (default: Y_CENTER)
+  #endif
 #endif
 
 // Homing speeds (mm/min)
