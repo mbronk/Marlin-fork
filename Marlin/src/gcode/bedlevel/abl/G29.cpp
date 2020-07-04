@@ -164,8 +164,6 @@
  */
 G29_TYPE GcodeSuite::G29() {
 
-  reset_stepper_timeout();
-
   const bool seenQ = EITHER(DEBUG_LEVELING_FEATURE, PROBE_MANUALLY) && parser.seen('Q');
 
   // G29 Q is also available if debugging
@@ -677,7 +675,7 @@ G29_TYPE GcodeSuite::G29() {
           #endif
 
           abl_should_enable = false;
-          idle_no_sleep();
+          idle();
 
         } // inner
       } // outer
