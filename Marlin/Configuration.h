@@ -120,7 +120,7 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 115200  //@@SapphirePro: Decreased from 25000 to improve reliability - consider increasing
+#define BAUDRATE 250000 //115200  //@@SapphirePro: Decreased from 25000 to improve reliability - consider increasing
 
 // Enable the Bluetooth serial interface on AT90USB devices
 //#define BLUETOOTH
@@ -1584,7 +1584,7 @@
  *   Caveats: The ending Z should be the same as starting Z.
  * Attention: EXPERIMENTAL. G-code arguments may change.
  */
-#define NOZZLE_CLEAN_FEATURE //@@SapphirePro
+//#define NOZZLE_CLEAN_FEATURE //@@SapphirePro
 
 #if ENABLED(NOZZLE_CLEAN_FEATURE)
   // Default number of pattern repetitions
@@ -1816,7 +1816,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-#define INDIVIDUAL_AXIS_HOMING_MENU //@@SapphirePro
+//#define INDIVIDUAL_AXIS_HOMING_MENU //@@SapphirePro
 
 //
 // SPEAKER/BUZZER
