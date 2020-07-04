@@ -852,7 +852,7 @@
 // Backlash Compensation
 // Adds extra movement to axes on direction-changes to account for backlash.
 //
-//#define BACKLASH_COMPENSATION  //@@Consider!!
+#define BACKLASH_COMPENSATION  //@@Consider!!
 #if ENABLED(BACKLASH_COMPENSATION)
   // Define values for backlash distance and correction.
   // If BACKLASH_GCODE is enabled these values are the defaults.
@@ -864,7 +864,7 @@
   //#define BACKLASH_SMOOTHING_MM 3 // (mm)
 
   // Add runtime configuration and tuning of backlash values (M425)
-  //#define BACKLASH_GCODE
+  #define BACKLASH_GCODE  //@@
 
   #if ENABLED(BACKLASH_GCODE)
     // Measure the Z backlash when probing (G29) and set with "M425 Z"
@@ -908,7 +908,7 @@
   #define CALIBRATION_NOZZLE_OUTER_DIAMETER      2.0  // mm
 
   // Uncomment to enable reporting (required for "G425 V", but consumes PROGMEM).
-  //#define CALIBRATION_REPORTING
+  #define CALIBRATION_REPORTING //@@
 
   // The true location and dimension the cube/bolt/washer on the bed.
   #define CALIBRATION_OBJECT_CENTER     { 264.0, -22.0,  -2.0 } // mm

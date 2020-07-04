@@ -988,7 +988,7 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.73 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
+#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.38 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
                                                   // Z-offset calibration manual: https://letsprint3d.net/guide-how-to-calibrate-an-auto-bed-leveling-sensor/
 
 // Most probes should stay away from the edges of the bed, but
@@ -1134,7 +1134,7 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE //@@SapphirePro - consider adding +5
-#define Z_MAX_POS 220 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -5mm for anti-backlash spring
+#define Z_MAX_POS 215 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -5mm for anti-backlash spring -5 for going down on poweon
 
 /**
  * Software Endstops
@@ -1592,8 +1592,8 @@
 
   // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
   // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-  #define NOZZLE_CLEAN_START_POINT { {  30, 30, (Z_MIN_POS + 1) } }
-  #define NOZZLE_CLEAN_END_POINT   { { 100, 60, (Z_MIN_POS + 1) } }
+  #define NOZZLE_CLEAN_START_POINT { {  30, 30, (Z_MIN_POS /*+ 1*/) } }
+  #define NOZZLE_CLEAN_END_POINT   { { 100, 60, (Z_MIN_POS /*+ 1*/) } }
 
   // Circular pattern radius
   #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
