@@ -262,8 +262,8 @@
   #define FSMC_DMA_DEV DMA2 //@@SapphirePro
   #define FSMC_DMA_CHANNEL DMA_CH5 //@@SapphirePro
 
-  #define LCD_RESET_PIN                     PC6   // @@SapphirePro (setting 'LCD_RESET_PIN' causes flickering - ref: pins_MKS_ROBIN.h)
-  //#define NO_LCD_REINIT                           // @@SapphirePro - already defined in Conditionals_post.h
+  #define LCD_RESET_PIN                     -1 // was: PC6 @@SapphirePro (setting 'LCD_RESET_PIN' causes flickering - ref: pins_MKS_ROBIN.h)    
+  //#define NO_LCD_REINIT                           // @@SapphirePro - already defined in Conditionals_post.h -or is it?
 
   #define LCD_BACKLIGHT_PIN                 PD13
 
