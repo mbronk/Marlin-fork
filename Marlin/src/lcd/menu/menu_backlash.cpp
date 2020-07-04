@@ -32,16 +32,27 @@
 
 #include "../../feature/backlash.h"
 
+
 void menu_backlash() {
   START_MENU();
   BACK_ITEM(MSG_MAIN);
 
   EDIT_ITEM_FAST(percent, MSG_BACKLASH_CORRECTION, &backlash.correction, all_off, all_on);
+  
+  auto axis_can_calibrate = [](const uint8_t a) {
+    switch (a) {
+      default:
+      case X_AXIS: return AXIS_CAN_CALIBRATE(X);
+      case Y_AXIS: return AXIS_CAN_CALIBRATE(Y);
+      case Z_AXIS: return AXIS_CAN_CALIBRATE(Z);
+      //TODO: handle default
+    }
+  };
 
   #define EDIT_BACKLASH_DISTANCE(N) EDIT_ITEM_FAST(float43, MSG_BACKLASH_##N, &backlash.distance_mm[_AXIS(N)], 0.0f, 9.9f);
-  if (AXIS_CAN_CALIBRATE(A)) EDIT_BACKLASH_DISTANCE(A);
-  if (AXIS_CAN_CALIBRATE(B)) EDIT_BACKLASH_DISTANCE(B);
-  if (AXIS_CAN_CALIBRATE(C)) EDIT_BACKLASH_DISTANCE(C);
+  if (axis_can_calibrate(_AXIS(A))) EDIT_BACKLASH_DISTANCE(A);
+  if (axis_can_calibrate(_AXIS(B))) EDIT_BACKLASH_DISTANCE(B);
+  if (axis_can_calibrate(_AXIS(C))) EDIT_BACKLASH_DISTANCE(C);
 
   #ifdef BACKLASH_SMOOTHING_MM
     EDIT_ITEM_FAST(float43, MSG_BACKLASH_SMOOTHING, &backlash.smoothing_mm, 0.0f, 9.9f);
