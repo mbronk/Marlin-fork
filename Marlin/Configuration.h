@@ -2222,7 +2222,7 @@
 #endif
 
 #if UI_SELECTION==1
-  #define TFT_GENERIC //@@SapphirePro - Classic Marlin menu-driven UI
+  #define TFT_COLOR_UI //@@SapphirePro - Classic Marlin menu-driven UI
 #elif UI_SELECTION==2
   #define TFT_LVGL_UI
 #else
@@ -2245,13 +2245,16 @@
  *   Resolution: TFT_WIDTH and TFT_HEIGHT
  *   Interface:  TFT_INTERFACE_FSMC or TFT_INTERFACE_SPI
  */
+#define MKS_ROBIN_TFT35 //@@SapphirePro
 //#define TFT_GENERIC //@SapphirePRO
 #if ENABLED(TFT_GENERIC) //@SapphirePRO
 	#define TFT_DRIVER AUTO //@SapphirePRO
 	#define TFT_WIDTH 480 //@SapphirePRO
 	#define TFT_HEIGHT 320 //@SapphirePRO
-	#define TFT_INTERFACE_FSMC //@SapphirePRO
+	#define TFT_INTERFACE_FSMC 1//@SapphirePRO
+  //#define FSMC_GRAPHICAL_TFT //instead of the above?
 #endif //@SapphirePRO
+
 
 /* BEGIN - OLD Sapphire PRO
 #define FSMC_GRAPHICAL_TFT //@@SapphirePro - Classic Marlin menu-driven UI
