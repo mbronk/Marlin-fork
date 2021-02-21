@@ -67,17 +67,17 @@ jobs:
         name: SapphireProFW_UI_${{matrix.ui_type}}
         path: .pio/build/mks_robin_nano35/Robin_nano35.bin
 
-    - uses: actions/upload-artifact@v2
-      if: matrix.ui_type == 2
-      with:
-        name: SapphireProFW_UI_${{matrix.ui_type}}
-        path: Firmware/*
+    # - uses: actions/upload-artifact@v2
+    #   if: matrix.ui_type == 2
+    #   with:
+    #     name: SapphireProFW_UI_${{matrix.ui_type}}
+    #     path: Firmware/*
 
     - uses: actions/upload-artifact@v2
       if: matrix.ui_type == 2
       with:
         name: SapphireProFW_UI_${{matrix.ui_type}}
-        path: .pio/build/mks_robin_nano35/assets/ => assets/
+        path: .pio/build/mks_robin_nano35/*assets/
 
     # - name: Run ${{ matrix.test-platform }} Tests
     #   run: |

@@ -208,7 +208,8 @@
   #define TOUCH_MISO_PIN                    PB14  // SPI2_MISO
   #define TOUCH_MOSI_PIN                    PB15  // SPI2_MOSI
 
-  #define TFT_RESET_PIN                     -1 // was: PC6 // FSMC_RST @@SapphirePro (setting 'LCD_RESET_PIN' causes flickering - ref: pins_MKS_ROBIN.h)    
+  // #define TFT_RESET_PIN                     -1 // was: PC6 // FSMC_RST @@SapphirePro (setting 'LCD_RESET_PIN' causes flickering - ref: pins_MKS_ROBIN.h)    
+  #define TFT_RESET_PIN                     PC6 // FSMC_RST @@SapphirePro (no Classic UI if -1)    
   #define TFT_BACKLIGHT_PIN                 PD13
 
   // Use DMA transfers to send data to the TFT - @@SapphirePro (source: pins_MKS_ROBIN.h)

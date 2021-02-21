@@ -2301,7 +2301,7 @@
  *   TFT_ROTATE_270, TFT_ROTATE_270_MIRROR_X, TFT_ROTATE_270_MIRROR_Y,
  *   TFT_MIRROR_X, TFT_MIRROR_Y, TFT_NO_ROTATION
  */
-//#define TFT_ROTATION TFT_NO_ROTATION
+#define TFT_ROTATION TFT_NO_ROTATION //@@SapphirePro
 
 //WAS: if DISABLED(TFT_LITTLE_VGL_UI) && DISABLED(FSMC_GRAPHICAL_TFT)  //@@SapphirePRO - OLD
 #if DISABLED(TFT_LVGL_UI) && DISABLED(TFT_COLOR_UI)  //@@Naive assertions prompting to select one of the UIs //@@SapphirePRO
@@ -2330,10 +2330,19 @@
 
   #define TOUCH_SCREEN_CALIBRATION
 
-  #define XPT2046_X_CALIBRATION 12316 //@@SapphirePro
-  #define XPT2046_Y_CALIBRATION -8981 //@@SapphirePro
-  #define XPT2046_X_OFFSET        -43 //@@SapphirePro
-  #define XPT2046_Y_OFFSET        257 //@@SapphirePro
+  //#define XPT2046_X_CALIBRATION 12316 //@@SapphirePro
+  //#define XPT2046_Y_CALIBRATION -8981 //@@SapphirePro
+  //#define XPT2046_X_OFFSET        -43 //@@SapphirePro
+  //#define XPT2046_Y_OFFSET        257 //@@SapphirePro
+  #define TOUCH_CALIBRATION_X  17880 //@@SapphirePro - upd
+  #define TOUCH_CALIBRATION_Y -12234
+  #define TOUCH_OFFSET_X         -45
+  #define TOUCH_OFFSET_Y         349
+  #define TOUCH_ORIENTATION TOUCH_LANDSCAPE
+
+  #if ENABLED(TFT_COLOR_UI)
+    //#define SINGLE_TOUCH_NAVIGATION
+  #endif
 #endif
 
 //
