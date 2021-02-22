@@ -42,15 +42,19 @@
 //===========================================================================
 
 /**
- * Here are some standard links for getting your machine calibrated:
+ * Here are some useful links to help get your machine configured and calibrated:
  *
- * https://reprap.org/wiki/Calibration
- * https://youtu.be/wAL9d7FgInk
- * http://calculator.josefprusa.cz
- * https://reprap.org/wiki/Triffid_Hunter%27s_Calibration_Guide
- * https://www.thingiverse.com/thing:5573
- * https://sites.google.com/site/repraplogphase/calibration-of-your-reprap
- * https://www.thingiverse.com/thing:298812
+ * Example Configs:     https://github.com/MarlinFirmware/Configurations/branches/all
+ *
+ * Průša Calculator:    https://blog.prusaprinters.org/calculator_3416/
+ *
+ * Calibration Guides:  https://reprap.org/wiki/Calibration
+ *                      https://reprap.org/wiki/Triffid_Hunter%27s_Calibration_Guide
+ *                      https://sites.google.com/site/repraplogphase/calibration-of-your-reprap
+ *                      https://youtu.be/wAL9d7FgInk
+ *
+ * Calibration Objects: https://www.thingiverse.com/thing:5573
+ *                      https://www.thingiverse.com/thing:1278865
  */
 
 //===========================================================================
@@ -443,29 +447,29 @@
 #define MAX_REDUNDANT_TEMP_SENSOR_DIFF 10
 
 #define TEMP_RESIDENCY_TIME     10  // (seconds) Time to wait for hotend to "settle" in M109
-#define TEMP_WINDOW              2  // (°C) Temperature proximity for the "temperature reached" timer  //@@SapphirePro
-#define TEMP_HYSTERESIS          4  // (°C) Temperature proximity considered "close enough" to the target  //@@SapphirePro
+#define TEMP_WINDOW              2  // (°C) Temperature proximity for the "temperature reached" timer  //@@SapphirePro (SPro_default: 1)
+#define TEMP_HYSTERESIS          4  // (°C) Temperature proximity considered "close enough" to the target  //@@SapphirePro (SPro_default:3)
 
 #define TEMP_BED_RESIDENCY_TIME 10  // (seconds) Time to wait for bed to "settle" in M190
-#define TEMP_BED_WINDOW          2  // (°C) Temperature proximity for the "temperature reached" timer  //@@SapphirePro
+#define TEMP_BED_WINDOW          2  // (°C) Temperature proximity for the "temperature reached" timer  //@@SapphirePro (SPro_default:1)
 #define TEMP_BED_HYSTERESIS      3  // (°C) Temperature proximity considered "close enough" to the target
 
 // Below this temperature the heater will be switched off
 // because it probably indicates a broken thermistor wire.
 #define HEATER_0_MINTEMP   10 //@@SapphirePro (whole section increaset to 10[C] (from 5[C])
-#define HEATER_1_MINTEMP   10
-#define HEATER_2_MINTEMP   10
-#define HEATER_3_MINTEMP   10
-#define HEATER_4_MINTEMP   10
-#define HEATER_5_MINTEMP   10
-#define HEATER_6_MINTEMP   10
-#define HEATER_7_MINTEMP   10
-#define BED_MINTEMP        10
+#define HEATER_1_MINTEMP   5
+#define HEATER_2_MINTEMP   5
+#define HEATER_3_MINTEMP   5
+#define HEATER_4_MINTEMP   5
+#define HEATER_5_MINTEMP   5
+#define HEATER_6_MINTEMP   5
+#define HEATER_7_MINTEMP   5
+#define BED_MINTEMP        10 //@@SapphirePro 
 
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 270 //@@SapphirePro
+#define HEATER_0_MAXTEMP 275 //@@SapphirePro
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -483,27 +487,27 @@
 // Comment the following line to disable PID and enable bang-bang.
 #define PIDTEMP
 #define BANG_MAX 255     // Limits current to nozzle while in bang-bang mode; 255=full current
-#define PID_MAX ((int)(0.90 * BANG_MAX)) // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current //@@SapphirePro: decreased to avoid temp. overshoot
+#define PID_MAX ((int)(0.90 * BANG_MAX)) // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current //@@SapphirePro: decreased to avoid temp. overshoot (SPro_default: BANG_MAX)
 #define PID_K1 0.95      // Smoothing factor within any PID loop
 
-#if ENABLED(PIDTEMP)  
-  //#define PID_EDIT_MENU         // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM)
-  #define PID_AUTOTUNE_MENU     // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM) //@@SapphirePro
+#if ENABLED(PIDTEMP)
+  #define PID_EDIT_MENU           // Add PID editing to the "Advanced Settings" menu. (~700 bytes of PROGMEM) //@@SapphirePro
+  #define PID_AUTOTUNE_MENU       // Add PID auto-tuning to the "Advanced Settings" menu. (~250 bytes of PROGMEM) //@@SapphirePro
   //#define PID_PARAMS_PER_HOTEND // Uses separate PID parameters for each extruder (useful for mismatched extruders)
                                   // Set/get with gcode: M301 E[extruder number, 0-2]
 
   #if ENABLED(PID_PARAMS_PER_HOTEND)
     // Specify between 1 and HOTENDS values per array.
     // If fewer than EXTRUDER values are provided, the last element will be repeated.
-    #define DEFAULT_Kp_LIST {  22.20,  22.20 }
-    #define DEFAULT_Ki_LIST {   1.08,   1.08 }
-    #define DEFAULT_Kd_LIST { 114.00, 114.00 }
+    #define DEFAULT_Kp_LIST {   8.16,   8.16 }
+    #define DEFAULT_Ki_LIST {   0.37,   0.37 }
+    #define DEFAULT_Kd_LIST {  44.46,  44.46 }
   #else
   
     //@@Sapphire PRO - Stock hotend, autotuned @210C (M303 E0 S210 C8)
-    #define DEFAULT_Kp 20.13
-    #define DEFAULT_Ki 2.26
-    #define DEFAULT_Kd 44.79
+    #define DEFAULT_Kp 20.13 //SPro_default - 8.16
+    #define DEFAULT_Ki 2.26 //SPro_default - 0.37
+    #define DEFAULT_Kd 44.79 //SPro_default - 44.46
   #endif
 #endif // PIDTEMP
 
@@ -540,24 +544,21 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
-  // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
-  // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  //#define DEFAULT_bedKp 10.00
-  //#define DEFAULT_bedKi .023
-  //#define DEFAULT_bedKd 305.4
+  //@@Sapphire PRO - Stock bed, autotuned @60C (M303 E-1 S60 C8) //@@
+  #define DEFAULT_bedKp 15.40 //SPro_default - 83.36
+  #define DEFAULT_bedKi 3.00 //SPro_default - 16.25
+  #define DEFAULT_bedKd 52.68 //SPro_default - 285.12
+
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
-  //@@Sapphire PRO - Stock bed, autotuned @60C (M303 E-1 S60 C8) //@@
-  #define DEFAULT_bedKp 15.40
-  #define DEFAULT_bedKi 3.00
-  #define DEFAULT_bedKd 52.68
+
 #endif // PIDTEMPBED
 
 #if EITHER(PIDTEMP, PIDTEMPBED)
   //#define PID_DEBUG             // Sends debug data to the serial port. Use 'M303 D' to toggle activation.
   //#define PID_OPENLOOP          // Puts PID in open loop. M104/M140 sets the output power from 0 to PID_MAX
   //#define SLOW_PWM_HEATERS      // PWM with very low frequency (roughly 0.125Hz=8s) and minimum state time of approximately 1s useful for heaters driven by a relay
-  #define PID_FUNCTIONAL_RANGE 16 // If the temperature difference between the target temperature and the actual temperature //@@SapphirePro
+  #define PID_FUNCTIONAL_RANGE 16 // If the temperature difference between the target temperature and the actual temperature //@@SapphirePro (SPro_default: 10)
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 #endif
 
@@ -571,14 +572,14 @@
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 180 //@@SapphirePro
+#define EXTRUDE_MINTEMP 170 //@@SapphirePro
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 750 //@@SapphirePro (original bowden cut to size unloads fully at 740mm) //@@
+#define EXTRUDE_MAXLENGTH 750 //@@SapphirePro (original bowden cut to size unloads fully at 740mm) //@@ SProDefault - 900
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -661,11 +662,11 @@
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
 #define X_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop. //@@SapphirePro
-#define Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+#define Y_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Z_MIN_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop. //@@SapphirePro
-#define X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Y_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop. //@@SapphirePro
-#define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING true // Set to true to invert the logic of the endstop.
 #define Z_MIN_PROBE_ENDSTOP_INVERTING true // Set to true to invert the logic of the probe. //@@SapphirePro
 
 /**
@@ -747,14 +748,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80.4, 80.4, 1600, 414.50 } //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 414.50 } //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 250, 250, 10, 75 } //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 10, 50 } //@@SapphirePRO - stock drivers and motors / from default (update E1 to 75 since TMC?)
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -767,7 +768,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 2000, 2000, 100, 1000 } //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 } //@@SapphirePRO - stock drivers and motors
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -782,9 +783,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          1500    // X, Y, Z and E acceleration for printing moves //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_ACCELERATION          2000    // X, Y, Z and E acceleration for printing moves //@@SapphirePRO - stock drivers and motors
 #define DEFAULT_RETRACT_ACCELERATION  1000    // E acceleration for retracts //@@SapphirePRO - stock drivers and motors
-#define DEFAULT_TRAVEL_ACCELERATION   2000    // X, Y, Z acceleration for travel (non printing) moves //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_TRAVEL_ACCELERATION   2500    // X, Y, Z acceleration for travel (non printing) moves //@@SapphirePRO - stock drivers and motors
 
 /**
  * Default Jerk limits (mm/s)
@@ -808,7 +809,7 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    1.5  // May be used by Linear Advance //@@SapphirePRO - (consider increasing to the default 5.0)
+#define DEFAULT_EJERK    5.0  // May be used by Linear Advance //@@SapphirePRO - (consider increasing to the default 5.0)
 
 /**
  * Junction Deviation Factor
@@ -818,7 +819,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.025 // (mm) Distance from real junction edge  //@@SapphirePro (default 0.013)
+  #define JUNCTION_DEVIATION_MM 0.04 // (mm) Distance from real junction edge  //@@SapphirePro (default 0.013)
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -831,7 +832,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-//#define S_CURVE_ACCELERATION  //@@?SapphirePro - consider (now using LIN_ADVANCE. See: https://github.com/MarlinFirmware/Marlin/issues/14728. Consider reenabling)
+#define S_CURVE_ACCELERATION  //@@?SapphirePro - consider (now using LIN_ADVANCE. See: https://github.com/MarlinFirmware/Marlin/issues/14728. Consider reenabling)
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -906,7 +907,8 @@
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
 #define BLTOUCH //@@BLTouch
-//#define Z_MIN_PROBE_ENDSTOP 
+//#define Z_MIN_PROBE_ENDSTOP
+
 /**
  * Pressure sensor with a BLTouch-like interface
  */
@@ -1000,10 +1002,10 @@
 #define PROBING_MARGIN 5 //@@BLTouch - default: 10
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_SPEED (100*60) //@@? BLTouch - default (133*60)
+#define XY_PROBE_SPEED (133*60) //@@? BLTouch - default (133*60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
+#define Z_PROBE_SPEED_FAST (4*60)//HOMING_FEEDRATE_Z
 
 // Feedrate (mm/min) for the "accurate" probe of each point
 #define Z_PROBE_SPEED_SLOW (Z_PROBE_SPEED_FAST / 2)
@@ -1017,7 +1019,7 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 5 //@@BLTouch
+#define MULTIPLE_PROBING 3 //@@BLTouch
 //#define EXTRA_PROBING    1
 
 /**
@@ -1034,9 +1036,9 @@
  * Example: `M851 Z-5` with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: `M851 Z+1` with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   5 // Z Clearance for Deploy/Stow //@@BLTouch (default: 10)
+#define Z_CLEARANCE_DEPLOY_PROBE   10 // Z Clearance for Deploy/Stow //@@BLTouch (default: 10)
 #define Z_CLEARANCE_BETWEEN_PROBES  6 // Z Clearance between probe points //@@BLTouch (default: 5)
-#define Z_CLEARANCE_MULTI_PROBE     4 // Z Clearance between multiple probes //@@BLTouch (default: 5)
+#define Z_CLEARANCE_MULTI_PROBE     6 // Z Clearance between multiple probes //@@BLTouch (default: 5)
 #define Z_AFTER_PROBING           10 // Z position after probing is done //@@BLTouch (default: 5)
 
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
@@ -1061,13 +1063,19 @@
  * These options are most useful for the BLTouch probe, but may also improve
  * readings with inductive probes and piezo sensors.
  */
-#define PROBING_HEATERS_OFF       // Turn heaters off when probing //@@BLTouch
+//#define PROBING_HEATERS_OFF       // Turn heaters off when probing //@@BLTouch
 #if ENABLED(PROBING_HEATERS_OFF)
   //#define WAIT_FOR_BED_HEATER     // Wait for bed to heat back up between probes (to improve accuracy)
 #endif
 //#define PROBING_FANS_OFF          // Turn fans off when probing
 //#define PROBING_STEPPERS_OFF      // Turn steppers off (unless needed to hold position) when probing
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
+// Require minimum nozzle and/or bed temperature for probing //may not be implemented in this ver
+#define PREHEAT_BEFORE_PROBING //@@?
+#if ENABLED(PREHEAT_BEFORE_PROBING)
+  #define PROBING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
+  #define PROBING_BED_TEMP     50
+#endif
 
 // For Inverting Stepper Enable Pins (Active Low) use 0, Non Inverting (Active High) use 1
 // :{ 0:'Low', 1:'High' }
@@ -1129,16 +1137,16 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 220 //@@SapphirePro
-#define Y_BED_SIZE 220 //@@SapphirePro
+#define X_BED_SIZE 220 //@@SapphirePro  //SPro_Default: 235
+#define Y_BED_SIZE 220 //@@SapphirePro  //SPro_Default: 235
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS -2 //@@SapphirePro
+#define X_MIN_POS -2 //@@SapphirePro //SPro_Default: 0
 #define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE //@@SapphirePro - consider adding +5
-#define Z_MAX_POS 205 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -15mm for anti-backlash spring -5 for going down on poweon
+#define Z_MAX_POS 205 //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -15mm for anti-backlash spring -5 for going down on poweon ////SPro_Default: 235
 
 /**
  * Software Endstops
@@ -1252,6 +1260,14 @@
 #define RESTORE_LEVELING_AFTER_G28 //@@?SapphirePro @@?BLTouch - consider disabling
 
 /**
+ * Auto-leveling needs preheating
+ */
+#define PREHEAT_BEFORE_LEVELING
+#if ENABLED(PREHEAT_BEFORE_LEVELING)  //@@? May not be implemented yet
+  #define LEVELING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
+  #define LEVELING_BED_TEMP     50
+#endif
+/*
  * Enable detailed logging of G28, G29, M48, etc.
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
@@ -1263,6 +1279,9 @@
   // at which point movement will be level to the machine's XY plane.
   // The height can be set with M420 Z<height>
   #define ENABLE_LEVELING_FADE_HEIGHT
+  #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)  //@@?SproDefault
+    #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
+  #endif
 
   // For Cartesian machines, instead of dividing moves on mesh boundaries,
   // split up moves into short segments like a Delta. This follows the
@@ -1298,13 +1317,13 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    //#define EXTRAPOLATE_BEYOND_GRID
+    #define EXTRAPOLATE_BEYOND_GRID  //@@##
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
     // Synthesizes intermediate points to produce a more detailed mesh.
     //
-    //#define ABL_BILINEAR_SUBDIVISION
+    #define ABL_BILINEAR_SUBDIVISION //@@##
     #if ENABLED(ABL_BILINEAR_SUBDIVISION)
       // Number of subdivisions between probe points
       #define BILINEAR_SUBDIVISIONS 3
@@ -1336,7 +1355,7 @@
   //=================================== Mesh ==================================
   //===========================================================================
 
-  #define MESH_INSET 20          // Set Mesh bounds as an inset region of the bed //@@SapphirePro
+  #define MESH_INSET 20          // Set Mesh bounds as an inset region of the bed //@@SapphirePro //@@##?=10
   #define GRID_MAX_POINTS_X 3    // Don't use more than 7 points per axis, implementation limited.
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
@@ -1351,19 +1370,19 @@
 #define LCD_BED_LEVELING //@@SapphirePro
 
 #if ENABLED(LCD_BED_LEVELING)
-  #define MESH_EDIT_Z_STEP  0.020 // (mm) Step size while manually probing Z axis. //@@SapphirePro
+  #define MESH_EDIT_Z_STEP  0.020 // (mm) Step size while manually probing Z axis. //@@SapphirePro //@@##?=25
   #define LCD_PROBE_Z_RANGE 4     // (mm) Z Range centered on Z_MIN_POS for LCD Z adjustment
-  //#define MESH_EDIT_MENU        // Add a menu to edit mesh points
+  #define MESH_EDIT_MENU        // Add a menu to edit mesh points //@@##
 #endif
 
 // Add a menu item to move between bed corners for manual bed adjustment
 #define LEVEL_BED_CORNERS //@@SapphirePro
 
 #if ENABLED(LEVEL_BED_CORNERS)
-  #define LEVEL_CORNERS_INSET_LFRB { 25, 25, 25, 25 } // (mm) Left, Front, Right, Back insets //@@SapphirePro
+  #define LEVEL_CORNERS_INSET_LFRB { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets //@@SapphirePro //@@?=25
   #define LEVEL_CORNERS_HEIGHT      0.0   // (mm) Z height of nozzle at leveling points
   #define LEVEL_CORNERS_Z_HOP       4.0   // (mm) Z height of nozzle between leveling points
-  //#define LEVEL_CENTER_TOO              // Move to the center after the last corner
+  #define LEVEL_CENTER_TOO              // Move to the center after the last corner
 #endif
 
 /**
@@ -1396,8 +1415,8 @@
 
 #if ENABLED(Z_SAFE_HOMING)
   #if DISABLED(USE_PROBE_FOR_Z_HOMING)
-  #define Z_SAFE_HOMING_X_POINT (10)  // X point for Z homing when homing all axes (G28).  //@@BLTouch (default: X_CENTER)
-  #define Z_SAFE_HOMING_Y_POINT (210)  // Y point for Z homing when homing all axes (G28). //@@BLTouch (default: Y_CENTER)
+    #define Z_SAFE_HOMING_X_POINT (10)  // X point for Z homing when homing all axes (G28).  //@@BLTouch (default: X_CENTER)
+    #define Z_SAFE_HOMING_Y_POINT (210)  // Y point for Z homing when homing all axes (G28). //@@BLTouch (default: Y_CENTER)
   #else
     #define Z_SAFE_HOMING_X_POINT (X_CENTER)  // X point for Z homing when homing all axes (G28).  //@@BLTouch (default: X_CENTER)
     #define Z_SAFE_HOMING_Y_POINT (Y_CENTER)  // Y point for Z homing when homing all axes (G28). //@@BLTouch (default: Y_CENTER)
@@ -1405,8 +1424,8 @@
 #endif
 
 // Homing speeds (mm/min)
-#define HOMING_FEEDRATE_XY (45*60) //@@SapphirePro
-#define HOMING_FEEDRATE_Z  (10*60) //@@SapphirePro
+#define HOMING_FEEDRATE_XY (50*60) //@@SapphirePro @@??=45
+#define HOMING_FEEDRATE_Z  (10*60) //@@SapphirePro @@##=4*60
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -1649,6 +1668,9 @@
  * View the current statistics with M78.
  */
 #define PRINTCOUNTER //@@SapphirePro
+#if ENABLED(PRINTCOUNTER)
+  #define PRINTCOUNTER_SAVE_INTERVAL 60 // (minutes) EEPROM save interval during print
+#endif
 
 /**
  * Password
@@ -1816,7 +1838,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-//#define INDIVIDUAL_AXIS_HOMING_MENU //@@SapphirePro
+#define INDIVIDUAL_AXIS_HOMING_MENU
 
 //
 // SPEAKER/BUZZER
@@ -2235,11 +2257,15 @@
 #define MKS_ROBIN_TFT35 //@@SapphirePro
 //#define TFT_GENERIC //@SapphirePRO
 #if ENABLED(TFT_GENERIC) //@SapphirePRO
-	#define TFT_DRIVER AUTO //@SapphirePRO
-	#define TFT_WIDTH 480 //@SapphirePRO
-	#define TFT_HEIGHT 320 //@SapphirePRO
-	#define TFT_INTERFACE_FSMC 1//@SapphirePRO
-  //#define FSMC_GRAPHICAL_TFT //instead of the above?
+  #define TFT_DRIVER AUTO //@SapphirePRO
+  // Interface. Enable one of the following options:
+  #define TFT_INTERFACE_FSMC
+  //#define TFT_INTERFACE_SPI
+
+  // TFT Resolution. Enable one of the following options:
+  //#define TFT_RES_320x240
+  #define TFT_RES_480x272
+  //#define TFT_RES_480x320
 #endif //@SapphirePRO
 
 /**
@@ -2271,6 +2297,8 @@
 #endif
 
 #if ENABLED(TFT_LVGL_UI)
+  //#define MKS_WIFI_MODULE  // MKS WiFi module
+  //TODO -> fil runout disable (MKS has its own)
   #undef LCD_BED_LEVELING //@@SapphirePro - not working with TFT_LITTLE_VGL_UI
   #ifdef FILAMENT_RUNOUT_SCRIPT //@@SapphirePro - not working with TFT_LITTLE_VGL_UI
     #undef FILAMENT_RUNOUT_SCRIPT
@@ -2306,7 +2334,7 @@
 //
 // ADS7843/XPT2046 ADC Touchscreen such as ILI9341 2.8
 //
-#if ENABLED(TFT_COLOR_UI)  //@@SapphirePro (OLD - Was: FSMC_GRAPHICAL_TFT)
+#if ENABLED(TFT_COLOR_UI) || ENABLED(TFT_CLASSIC_UI)  //@@SapphirePro (OLD - Was: FSMC_GRAPHICAL_TFT)
   #define TOUCH_SCREEN //@@SapphirePro (OLD - Was: TOUCH_BUTTONS)
 #endif //@@SapphirePro 
 #if ENABLED(TOUCH_SCREEN)
@@ -2315,10 +2343,6 @@
 
   #define TOUCH_SCREEN_CALIBRATION
 
-  //#define XPT2046_X_CALIBRATION 12316 //@@SapphirePro
-  //#define XPT2046_Y_CALIBRATION -8981 //@@SapphirePro
-  //#define XPT2046_X_OFFSET        -43 //@@SapphirePro
-  //#define XPT2046_Y_OFFSET        257 //@@SapphirePro
   #define TOUCH_CALIBRATION_X  17880 //@@SapphirePro - upd
   #define TOUCH_CALIBRATION_Y -12234
   #define TOUCH_OFFSET_X         -45
