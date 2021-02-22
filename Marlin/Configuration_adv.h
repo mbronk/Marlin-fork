@@ -3618,4 +3618,4 @@
 #define PINS_DEBUGGING //@@SapphirePro
 
 // Enable Marlin dev mode which adds some special commands
-#define MARLIN_DEV_MODE //for D100 command (watchdog test)
+//#define MARLIN_DEV_MODE
