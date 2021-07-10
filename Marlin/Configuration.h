@@ -994,8 +994,9 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.33 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
+#define NOZZLE_TO_PROBE_OFFSET { 0, -38, -1.48 } //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
                                                   // Z-offset calibration manual: https://letsprint3d.net/guide-how-to-calibrate-an-auto-bed-leveling-sensor/
+                                                  //Offset which works for ABS: -1.48
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
