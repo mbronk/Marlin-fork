@@ -1256,7 +1256,7 @@
 
 #if ANY(HAS_LCD_MENU, EXTENSIBLE_UI, HAS_DWIN_E3V2)
   #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 2*60 } // (mm/min) Feedrates for manual moves along X, Y, Z, E from panel
-  #define FINE_MANUAL_MOVE 0.025    // (mm) Smallest manual move (< 0.1mm) applying to Z on most machines
+  #define FINE_MANUAL_MOVE 0.001    // (mm) Smallest manual move (< 0.1mm) applying to Z on most machines
   #if IS_ULTIPANEL
     #define MANUAL_E_MOVES_RELATIVE // Display extruder move distance rather than "position"
     #define ULTIPANEL_FEEDMULTIPLY  // Encoder sets the feedrate multiplier on the Status Screen
@@ -1291,7 +1291,7 @@
       #define PROBE_OFFSET_WIZARD_START_Z -2.5   // Estimated nozzle-to-probe Z offset, plus a little extra
 
       // Set a convenient position to do the calibration (probing point and nozzle/bed-distance)
-      //#define PROBE_OFFSET_WIZARD_XY_POS { X_CENTER, Y_CENTER }
+      //#define PROBE_OFFSET_WIZARD_XY_POS { X_CENTER, Y_CENTER }  //#define PROBE_OFFSET_WIZARD_XY_POS XY_CENTER
     #endif
 
     #if ENABLED(AUTO_BED_LEVELING_BILINEAR)
@@ -2296,12 +2296,6 @@
   #define SERIAL_XON_XOFF //@@SapphirePro  //##?? commented
 #endif
 
-//!!!!!!!!!!!!!!!!!!!!  TODO - the BAUD_RATE_GCODE was removed from latest (moved somewhere?)
-// Add M575 G-code to change the baud rate
-#define BAUD_RATE_GCODE //@@SapphirePro
-
-//@@SapphirePRO - see https://bit.ly/2V4PyuF for connecting ESP8266 and using ESP3D(may need aux power supply?)
-
 #if ENABLED(SDSUPPORT)
   // Enable this option to collect and display the maximum
   // RX queue usage after transferring a file to SD.
@@ -2996,7 +2990,7 @@
    * Define your own with:
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V        // All axes (override below)  //@@TMC-UART   @@##=12V ???????????????????
+  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V        // All axes (override below)  //@@TMC-UART
   //#define CHOPPER_TIMING_X  CHOPPER_TIMING        // For X Axes (override below)
   //#define CHOPPER_TIMING_X2 CHOPPER_TIMING_X
   //#define CHOPPER_TIMING_Y  CHOPPER_TIMING        // For Y Axes (override below)

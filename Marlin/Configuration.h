@@ -718,7 +718,7 @@
  * Note: For Bowden Extruders make this large enough to allow load/unload.
  */
 #define PREVENT_LENGTHY_EXTRUDE
-#define EXTRUDE_MAXLENGTH 750  //@@SapphirePro (original bowden cut to size unloads fully at 740mm) //@@ SProDefault - 900
+#define EXTRUDE_MAXLENGTH 800  //@@SapphirePro (original bowden cut to size unloads fully at 740mm) //@@ SProDefault - 900
 
 //===========================================================================
 //======================== Thermal Runaway Protection =======================
@@ -842,7 +842,7 @@
 #define I_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define J_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
 #define K_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING false  // @@ Because for BLTOUCH (should be true otherwise?)
+#define Z_MIN_PROBE_ENDSTOP_INVERTING false  // @@ Because for BLTOUCH (should be true otherwise?) //=DISABLED(BLTOUCH)
 
 /**
  * Stepper Drivers
@@ -928,7 +928,7 @@
  * Override with M92
  *                                      X, Y, Z [, I [, J [, K]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 414.50 }  //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 414.50 }  //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm instead of 415
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -1031,7 +1031,7 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  //@@BLTouch - probe connected to Z-MAX (Z-min still connected to microswitch)
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  //@@BLTouch - probe connected to Z-MAX **NOT MIN** (Z-min still connected to microswitch). Needs to remain disabled
 
 // Force the use of the probe for Z-axis homing
 #define USE_PROBE_FOR_Z_HOMING  //@@?BLTouch - consider  <- use for probe z-offset calibration
@@ -1089,7 +1089,6 @@
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
 #define BLTOUCH  //@@BLTouch
-//#define Z_MIN_PROBE_ENDSTOP
 
 /**
  * Touch-MI Probe by hotends.fr
@@ -1390,7 +1389,7 @@
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE //@@SapphirePro - consider adding +5
-#define Z_MAX_POS 205  //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -15mm for anti-backlash spring -5 for going down on poweon ////SPro_Default: 235
+#define Z_MAX_POS 200  //@@Sapphire Pro with ultrabase and bed high on springs (elastic coupler/Z-axis anti-wobble top bearing mount) -- -15mm for anti-backlash spring -5 for going down on poweon -5mm for safe homing////SPro_Default: 235
 //#define I_MIN_POS 0
 //#define I_MAX_POS 50
 //#define J_MIN_POS 0
@@ -1550,7 +1549,7 @@
 //#define AUTO_BED_LEVELING_LINEAR
 #define AUTO_BED_LEVELING_BILINEAR  //@@BLTouch
 //#define AUTO_BED_LEVELING_UBL
-//#define MESH_BED_LEVELING  //@@SapphirePro
+//#define MESH_BED_LEVELING  //@@SapphirePro (#if DISABLED(BLTOUCH)
 
 /**
  * Normally G28 leaves leveling disabled on completion. Enable one of
@@ -1751,7 +1750,7 @@
  * - Allows Z homing only when XY positions are known and trusted.
  * - If stepper drivers sleep, XY homing may be required again before Z homing.
  */
-#define Z_SAFE_HOMING  //@@BLTouch - consider disabling (BLTouch is connected to X-MAX(!) and not used for homing)
+#define Z_SAFE_HOMING  //@@BLTouch - consider disabling (BLTouch is connected to X-MAX(!) //NOT_TRUE==and not used for homing==)
 
 #if ENABLED(Z_SAFE_HOMING)
   #if DISABLED(USE_PROBE_FOR_Z_HOMING)
