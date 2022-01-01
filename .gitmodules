@@ -1,0 +1,3 @@
+[submodule "config/MarlinFirmware_Configurations-fork"]
+	path = config/MarlinFirmware_Configurations-fork
+	url = https://github.com/mbronk/MarlinFirmware_Configurations-fork
