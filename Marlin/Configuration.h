@@ -1297,7 +1297,9 @@
 //#define DELAY_BEFORE_PROBING 200  // (ms) To prevent vibrations from triggering piezo sensors
 
 // Require minimum nozzle and/or bed temperature for probing
-#define PREHEAT_BEFORE_PROBING  //@@?
+#if DISABLED(BLTOUCH)
+  #define PREHEAT_BEFORE_PROBING  //@@? Disabled as ZProbe
+#endif
 #if ENABLED(PREHEAT_BEFORE_PROBING)
   #define PROBING_NOZZLE_TEMP 120   // (°C) Only applies to E0 at this time
   #define PROBING_BED_TEMP     50
@@ -1562,7 +1564,7 @@
 /**
  * Auto-leveling needs preheating
  */
-#if DISABLED(BLTOUCH) //@@
+#if ENABLED(BLTOUCH) //@@
   #define PREHEAT_BEFORE_LEVELING  //@@
 #endif
 #if ENABLED(PREHEAT_BEFORE_LEVELING)
