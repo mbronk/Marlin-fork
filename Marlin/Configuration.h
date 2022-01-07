@@ -601,10 +601,10 @@
     #define DEFAULT_Ki_LIST {   1.08,   1.08 }
     #define DEFAULT_Kd_LIST { 114.00, 114.00 }
   #else
-    //@@Sapphire PRO - Stock hotend, autotuned @210C (M303 E0 S210 C8)
-    #define DEFAULT_Kp  20.13  //SPro_default - 8.16
-    #define DEFAULT_Ki   2.26  //SPro_default - 0.37
-    #define DEFAULT_Kd  44.79  //SPro_default - 44.46
+    //@@Sapphire PRO - Stock hotend, autotuned @210C (M303 E0 S210 C5)
+    #define DEFAULT_Kp  17.64  //SPro_default - 8.16
+    #define DEFAULT_Ki   1.65  //SPro_default - 0.37
+    #define DEFAULT_Kd  47.27  //SPro_default - 44.46
   #endif
 #endif // PIDTEMP
 
@@ -641,10 +641,10 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
-  //@@Sapphire PRO - Stock bed, autotuned @60C (M303 E-1 S60 C8) //@@
-  #define DEFAULT_bedKp 15.40 //SPro_default - 83.36
-  #define DEFAULT_bedKi  3.00 //SPro_default - 16.25
-  #define DEFAULT_bedKd 52.68 //SPro_default - 285.12
+  //@@Sapphire PRO - Stock bed, autotuned @60C (M303 E-1 S70 C5) //@@
+  #define DEFAULT_bedKp  39.37 //SPro_default - 83.36
+  #define DEFAULT_bedKi   6.56 //SPro_default - 16.25
+  #define DEFAULT_bedKd 157.48 //SPro_default - 285.12
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
