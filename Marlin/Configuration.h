@@ -118,7 +118,7 @@
  */
 #define BAUDRATE 250000  //@@SapphirePro: Consider decreasing [250000->115200] to improve reliability
 
-#define BAUD_RATE_GCODE     // Enable G-code M575 to set the baud rate  //@@SapphirePro
+//#define BAUD_RATE_GCODE     // Enable G-code M575 to set the baud rate  //@@SapphirePro //STABILITY
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
@@ -621,7 +621,7 @@
 
 // Below this temperature the heater will be switched off
 // because it probably indicates a broken thermistor wire.
-#define HEATER_0_MINTEMP   10  //@@SapphirePro (whole section increaset to 10[C] (from 5[C])
+#define HEATER_0_MINTEMP   5  //@@SapphirePro (whole section increased to 10[C] (from 5[C])
 #define HEATER_1_MINTEMP   5
 #define HEATER_2_MINTEMP   5
 #define HEATER_3_MINTEMP   5
@@ -629,13 +629,13 @@
 #define HEATER_5_MINTEMP   5
 #define HEATER_6_MINTEMP   5
 #define HEATER_7_MINTEMP   5
-#define BED_MINTEMP        10  //@@SapphirePro 
+#define BED_MINTEMP        5  //@@SapphirePro 
 #define CHAMBER_MINTEMP    5
 
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
 // (Use MINTEMP for thermistor short/failure protection.)
-#define HEATER_0_MAXTEMP 275  //@@SapphirePro
+#define HEATER_0_MAXTEMP 280  //@@SapphirePro
 #define HEATER_1_MAXTEMP 275
 #define HEATER_2_MAXTEMP 275
 #define HEATER_3_MAXTEMP 275
@@ -643,7 +643,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      150
+#define BED_MAXTEMP      160
 #define CHAMBER_MAXTEMP  60
 
 /**
@@ -665,7 +665,7 @@
 // Enable PIDTEMP for PID control or MPCTEMP for Predictive Model.
 // temperature control. Disable both for bang-bang heating.
 #define PIDTEMP          // See the PID Tuning Guide at https://reprap.org/wiki/PID_Tuning
-//#define MPCTEMP        // ** EXPERIMENTAL **
+//#define MPCTEMP        // ** EXPERIMENTAL **  //@@CHECK
 
 #define BANG_MAX 255     // Limits current to nozzle while in bang-bang mode; 255=full current
 #define PID_MAX ((int)(0.90 * BANG_MAX)) // Limits current to nozzle while PID is active (see PID_FUNCTIONAL_RANGE below); 255=full current //@@SapphirePro: decreased to avoid temp. overshoot (SPro_default: BANG_MAX)
@@ -1790,7 +1790,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD  //@@BLTouch
+  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD  //@@BLTouch //STABILITY
 #endif
 
 /**
@@ -1858,7 +1858,7 @@
   // After a runout is detected, continue printing this length of filament
   // before executing the runout script. Useful for a sensor at the end of
   // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-  #define FILAMENT_RUNOUT_DISTANCE_MM 5  //@@SapphirePro
+  //#define FILAMENT_RUNOUT_DISTANCE_MM 5  //@@SapphirePro  ////STABILITY
 
   #ifdef FILAMENT_RUNOUT_DISTANCE_MM
     // Enable this option to use an encoder disc that toggles the runout pin
@@ -1910,7 +1910,7 @@
 //#define AUTO_BED_LEVELING_LINEAR
 //#define AUTO_BED_LEVELING_UBL
 #if ENABLED(SPRO_BLTOUCH)
-  #define AUTO_BED_LEVELING_BILINEAR  //@@BLTouch
+  #define AUTO_BED_LEVELING_BILINEAR  //@@BLTouch  //UBL?
 #else
   #define MESH_BED_LEVELING
 #endif
@@ -1977,7 +1977,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  #define G26_MESH_VALIDATION  //@@BLTouch
+  //#define G26_MESH_VALIDATION  //@@BLTouch  ////STABILITY
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for G26.
@@ -2524,7 +2524,7 @@
  * just remove some extraneous menu items to recover space.
  */
 //#define NO_LCD_MENUS
-//#define SLIM_LCD_MENUS  //@@? - consider?
+#define SLIM_LCD_MENUS  //@@? - consider?
 
 //
 // ENCODER SETTINGS
@@ -2588,7 +2588,7 @@
 //
 // Add individual axis homing items (Home X, Home Y, and Home Z) to the LCD menu.
 //
-#define INDIVIDUAL_AXIS_HOMING_MENU  //@@
+//#define INDIVIDUAL_AXIS_HOMING_MENU  //@@
 //#define INDIVIDUAL_AXIS_HOMING_SUBMENU
 
 //
