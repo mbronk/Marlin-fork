@@ -99,7 +99,7 @@
  *
  * :[2400, 9600, 19200, 38400, 57600, 115200, 250000, 500000, 1000000]
  */
-#define BAUDRATE 250000  //@@SapphirePro: Consider decreasing [250000->115200] to improve reliability
+#define BAUDRATE 115200  //@@SapphirePro: Consider decreasing [250000->115200] to improve reliability
 
 #define BAUD_RATE_GCODE     // Enable G-code M575 to set the baud rate  //@@SapphirePro
 
@@ -753,11 +753,11 @@
   #define MPC_INCLUDE_FAN                             // Model the fan speed?
 
   // Measured physical constants from M306
-  #define MPC_BLOCK_HEAT_CAPACITY { 18.79f }           // (J/K) Heat block heat capacities.  //@@SapphirePRO
-  #define MPC_SENSOR_RESPONSIVENESS { 0.1796f }         // (K/s per ∆K) Rate of change of sensor temperature from heat block.  //@@SapphirePRO
-  #define MPC_AMBIENT_XFER_COEFF { 0.0831f }           // (W/K) Heat transfer coefficients from heat block to room air with fan off.  //@@SapphirePRO
+  #define MPC_BLOCK_HEAT_CAPACITY { 17.73f }           // (J/K) Heat block heat capacities.  //@@SapphirePRO
+  #define MPC_SENSOR_RESPONSIVENESS { 0.1374f }         // (K/s per ∆K) Rate of change of sensor temperature from heat block.  //@@SapphirePRO
+  #define MPC_AMBIENT_XFER_COEFF { 0.0632f }           // (W/K) Heat transfer coefficients from heat block to room air with fan off.  //@@SapphirePRO
   #if ENABLED(MPC_INCLUDE_FAN)
-    #define MPC_AMBIENT_XFER_COEFF_FAN255 { 0.0887f }  // (W/K) Heat transfer coefficients from heat block to room air with fan on full.  //@@SapphirePRO
+    #define MPC_AMBIENT_XFER_COEFF_FAN255 { 0.0928f }  // (W/K) Heat transfer coefficients from heat block to room air with fan on full.  //@@SapphirePRO
   #endif
 
   // For one fan and multiple hotends MPC needs to know how to apply the fan cooling effect.
@@ -814,10 +814,10 @@
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Print Bed PID debug data to the serial port.
 
-  //@@Sapphire PRO - Stock bed, autotuned @60C (M303 E-1 S70 C5) //@@
-  #define DEFAULT_bedKp  39.37 //SPro_default - 83.36
-  #define DEFAULT_bedKi   6.56 //SPro_default - 16.25
-  #define DEFAULT_bedKd 157.48 //SPro_default - 285.12
+  //@@Sapphire PRO - Stock bed, autotuned @90C (M303 E-1 S90 C8) //@@
+  #define DEFAULT_bedKp  33.88 //SPro_default - 83.36
+  #define DEFAULT_bedKi   5.58 //SPro_default - 16.25
+  #define DEFAULT_bedKd 137.18 //SPro_default - 285.12
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #else
@@ -1250,7 +1250,7 @@
 #define X_MAX_ENDSTOP_HIT_STATE LOW //@@SapphirePro
 #define Y_MIN_ENDSTOP_HIT_STATE LOW //@@SapphirePro
 #define Y_MAX_ENDSTOP_HIT_STATE LOW //@@SapphirePro
-#define Z_MIN_ENDSTOP_HIT_STATE TERN(SPRO_BLTOUCH, HIGH, LOW) //@@SapphirePro
+#define Z_MIN_ENDSTOP_HIT_STATE LOW //@@SapphirePro
 #define Z_MAX_ENDSTOP_HIT_STATE LOW //@@SapphirePro
 #define I_MIN_ENDSTOP_HIT_STATE HIGH
 #define I_MAX_ENDSTOP_HIT_STATE HIGH
@@ -1312,7 +1312,7 @@
  * Override with M92 (when enabled below)
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 414.50 }  //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm instead of 415; TODO-recalibrate witn new extruder
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 1600, 415.00 }  //@@SapphirePRO - 80.4 X/Y values come from stock FW config @https://bit.ly/3dmi29h. Calibrated stock extruder - 414,50step/mm instead of 415; TODO-recalibrate witn new extruder (was: 414.50)
 
 /**
  * Enable support for M92. Disable to save at least ~530 bytes of flash.
@@ -1324,7 +1324,7 @@
  * Override with M203
  *                                      X, Y, Z [, I [, J [, K...]]], E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 10, 50 }  //@@SapphirePRO - stock drivers and motors / from default (update E1 to 75 since TMC?)
+#define DEFAULT_MAX_FEEDRATE          { 300, 300, 20, 60 }  //@@SapphirePRO - stock drivers and motors / from default (update E1 to 75 since TMC?) //updated to 60
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -1423,7 +1423,7 @@
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
 #if ENABLED(SPRO_BLTOUCH)
-  #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  //@@BLTouch - probe connected to Z-MIN **NOT MIN** (Z-max connected to microswitch at the bottom). Disabled though due to sanity checks  (TODO-checkme2)
+  // #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN  //@@BLTouch - probe connected to Z-MIN **NOT MIN** (Z-max connected to microswitch at the bottom). Disabled though due to sanity checks  (TODO-checkme2)
 #endif
 
 // Force the use of the probe for Z-axis homing
@@ -1662,9 +1662,10 @@
  *     |    [-]    |
  *     O-- FRONT --+
  */
-#define NOZZLE_TO_PROBE_OFFSET { 0, -38, (-0.67) }  //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
+#define NOZZLE_TO_PROBE_OFFSET { -0.2, -39.3, (-0.179) }  //(-0.681) //@@BLTouch offset using mount by @AlloT: https://www.thingiverse.com/thing:3977061 ;
                                                   // Z-offset calibration manual: https://letsprint3d.net/guide-how-to-calibrate-an-auto-bed-leveling-sensor/
                                                   //Offset which works for ABS: -1.48
+                                                  // Offset which works for ASA: -0.819  (**-1.38 additional** to -0.681 from wizard! )
 // Enable and set to use a specific tool for probing. Disable to allow any tool.
 #define PROBING_TOOL 0
 #ifdef PROBING_TOOL
@@ -1680,7 +1681,7 @@
 #define XY_PROBE_FEEDRATE (133*60) // (mm/min)
 
 // Feedrate for the first approach when double-probing (MULTIPLE_PROBING == 2)
-#define Z_PROBE_FEEDRATE_FAST (4*60) // (mm/min)
+#define Z_PROBE_FEEDRATE_FAST (10*60) // (mm/min)
 
 // Feedrate for the "accurate" probe of each point
 #define Z_PROBE_FEEDRATE_SLOW (Z_PROBE_FEEDRATE_FAST / 2) // (mm/min)
@@ -1731,8 +1732,8 @@
  * A total of 2 does fast/slow probes with a weighted average.
  * A total of 3 or more adds more slow probes, taking the average.
  */
-#define MULTIPLE_PROBING 3  //@@BLTouch
-//#define EXTRA_PROBING    1
+#define MULTIPLE_PROBING 2  //@@BLTouch
+#define EXTRA_PROBING    1
 
 /**
  * Z probes require clearance when deploying, stowing, and moving between
@@ -1748,11 +1749,11 @@
  * Example: 'M851 Z-5' with a CLEARANCE of 4  =>  9mm from bed to nozzle.
  *     But: 'M851 Z+1' with a CLEARANCE of 2  =>  2mm from bed to nozzle.
  */
-#define Z_CLEARANCE_DEPLOY_PROBE   10 // (mm) Z Clearance for Deploy/Stow  //@@BLTouch (default: 10)
-#define Z_CLEARANCE_BETWEEN_PROBES  6 // (mm) Z Clearance between probe points  //@@BLTouch (default: 5)
-#define Z_CLEARANCE_MULTI_PROBE     6 // (mm) Z Clearance between multiple probes  //@@BLTouch (default: 5)
+#define Z_CLEARANCE_DEPLOY_PROBE    4 // (mm) Z Clearance for Deploy/Stow  //@@BLTouch (default: 10)
+#define Z_CLEARANCE_BETWEEN_PROBES  4 // (mm) Z Clearance between probe points  //@@BLTouch (default: 5)
+#define Z_CLEARANCE_MULTI_PROBE     3 // (mm) Z Clearance between multiple probes  //@@BLTouch (default: 5)
 #define Z_PROBE_ERROR_TOLERANCE     3 // (mm) Tolerance for early trigger (<= -probe.offset.z + ZPET)
-#define Z_AFTER_PROBING            10 // (mm) Z position after probing is done  //@@BLTouch (default: 5)
+#define Z_AFTER_PROBING             3 // (mm) Z position after probing is done  //@@BLTouch (default: 5)
 
 #define Z_PROBE_LOW_POINT          -2 // (mm) Farthest distance below the trigger-point to go before stopping
 
@@ -1881,8 +1882,8 @@
 #define Z_CLEARANCE_FOR_HOMING  3   // (mm) Minimal Z height before homing (G28) for Z clearance above the bed, clamps, ... ////@@BLTouch (default: 4)
                                     // You'll need this much clearance above Z_MAX_POS to avoid grinding.
 
-#define Z_AFTER_HOMING         10   // (mm) Height to move to after homing (if Z was homed) //@@BLTouch
-//#define XY_AFTER_HOMING { 10, 10 }  // (mm) Move to an XY position after homing (and raising Z)
+#define Z_AFTER_HOMING         3   // (mm) Height to move to after homing (if Z was homed) //@@BLTouch
+#define XY_AFTER_HOMING { 110, 10 }  // (mm) Move to an XY position after homing (and raising Z)
 
 //#define EVENT_GCODE_AFTER_HOMING "M300 P440 S200"  // Commands to run after G28 (and move to XY_AFTER_HOMING)
 
@@ -1905,7 +1906,7 @@
  */
 //#define X_SAFETY_STOP
 //#define Y_SAFETY_STOP
-//#define Z_SAFETY_STOP
+#define Z_SAFETY_STOP
 //#define I_SAFETY_STOP
 //#define J_SAFETY_STOP
 //#define K_SAFETY_STOP
@@ -2226,8 +2227,8 @@
 #if ANY(AUTO_BED_LEVELING_LINEAR, AUTO_BED_LEVELING_BILINEAR)
 
   // Set the number of grid points per dimension.
-  #define GRID_MAX_POINTS_X 3  //@@SapphirePro (for @@BLTouch)
-  #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
+  #define GRID_MAX_POINTS_X 6  //@@SapphirePro (for @@BLTouch)
+  #define GRID_MAX_POINTS_Y 4
 
   // Probe along the Y axis, advancing X after each column
   //#define PROBE_Y_FIRST
@@ -2398,7 +2399,7 @@
 #define HOMING_FEEDRATE_MM_M { (50*60), (50*60), (10*60) }  //@@SapphirePro @@ X/Y=45?, Z=4*60?
 
 // Edit homing feedrates with M210 and MarlinUI menu items
-//#define EDITABLE_HOMING_FEEDRATE
+#define EDITABLE_HOMING_FEEDRATE
 
 // Validate that endstops are triggered on homing moves
 #define VALIDATE_HOMING_ENDSTOPS
@@ -2514,17 +2515,32 @@
 //
 // Preheat Constants - Up to 10 are supported without changes
 //
-#define PREHEAT_1_LABEL       "PLA"
-#define PREHEAT_1_TEMP_HOTEND 190  //@@SapphirePro
-#define PREHEAT_1_TEMP_BED     70  //@@SapphirePro
-#define PREHEAT_1_TEMP_CHAMBER 35
-#define PREHEAT_1_FAN_SPEED     0 // Value from 0 to 255
+#define PREHEAT_1_LABEL       "PLA (Spectrum)"
+#define PREHEAT_1_TEMP_HOTEND 225  //@@SapphirePro (185<->215)
+#define PREHEAT_1_TEMP_BED     60  //@@SapphirePro (0<->45, 60?)
+#define PREHEAT_1_TEMP_CHAMBER 0
+#define PREHEAT_1_FAN_SPEED    int(255*90/100) // Value from 0 to 255 (90%, max 100%)
+
 
 #define PREHEAT_2_LABEL       "ABS"
 #define PREHEAT_2_TEMP_HOTEND 240
 #define PREHEAT_2_TEMP_BED    110
 #define PREHEAT_2_TEMP_CHAMBER 35
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
+
+#define PREHEAT_3_LABEL       "ASA (F3D)"
+#define PREHEAT_3_TEMP_HOTEND 260
+#define PREHEAT_3_TEMP_BED    110
+#define PREHEAT_3_TEMP_CHAMBER  0
+#define PREHEAT_3_FAN_SPEED     int(255*10/100) // Value from 0 to 255 (10%, max 20%)
+// retract 0,8mm, 35mm/s
+
+#define PREHEAT_4_LABEL       "ABS-X (F3D)"
+#define PREHEAT_4_TEMP_HOTEND 255
+#define PREHEAT_4_TEMP_BED    110
+#define PREHEAT_4_TEMP_CHAMBER  0
+#define PREHEAT_4_FAN_SPEED     int(255*7.5/100) // Value from 0 to 255 (7.5%, max 15%)
+// retract 0,8mm, 35mm/s
 
 /**
  * @section nozzle park
@@ -2857,7 +2873,7 @@
 // If you have a speaker that can produce tones, enable it here.
 // By default Marlin assumes you have a buzzer with a fixed frequency.
 //
-//#define SPEAKER
+#define SPEAKER //todo - checkme (if it is a speaker and can play midi)
 
 //
 // The duration and frequency for the UI feedback sound.
