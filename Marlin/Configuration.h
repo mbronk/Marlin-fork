@@ -1359,9 +1359,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          2000    // X, Y, Z and E acceleration for printing moves  //@@SapphirePRO - stock drivers and motors
-#define DEFAULT_RETRACT_ACCELERATION  1000    // E acceleration for retracts  //@@SapphirePRO - stock drivers and motors
-#define DEFAULT_TRAVEL_ACCELERATION   2500    // X, Y, Z acceleration for travel (non printing) moves  //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_ACCELERATION          500    // X, Y, Z and E acceleration for printing moves  //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_RETRACT_ACCELERATION  600    // E acceleration for retracts  //@@SapphirePRO - stock drivers and motors
+#define DEFAULT_TRAVEL_ACCELERATION   500    // X, Y, Z acceleration for travel (non printing) moves  //@@SapphirePRO - stock drivers and motors
 
 /**
  * Default Jerk limits (mm/s)
@@ -1400,7 +1400,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.04 // (mm) Distance from real junction edge  //@@SapphirePro (default 0.013)
+  #define JUNCTION_DEVIATION_MM 0.02 // (mm) Distance from real junction edge  //@@SapphirePro (default 0.013)
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif

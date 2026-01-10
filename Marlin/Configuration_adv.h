@@ -2389,7 +2389,7 @@
  */
 //https://3dprinting.stackexchange.com/questions/15564/extruder-motor-does-spin-but-not-while-printing/15572#15572
 //https://github.com/MarlinFirmware/Marlin/issues/17944#issuecomment-626392036
-#define LIN_ADVANCE  //@@SapphirePro  ##?? DISABLED !!!!!!!!!!!!!!!!!!!!!!! //error "LIN_ADVANCE and S_CURVE_ACCELERATION may not play well together! Enable EXPERIMENTAL_SCURVE to continue."
+//#define LIN_ADVANCE  //@@SapphirePro  ##?? DISABLED !!!!!!!!!!!!!!!!!!!!!!! //error "LIN_ADVANCE and S_CURVE_ACCELERATION may not play well together! Enable EXPERIMENTAL_SCURVE to continue."
 #if ENABLED(LIN_ADVANCE)
   #if ENABLED(DISTINCT_E_FACTORS)
     #define ADVANCE_K { 0.22 }    // (mm) Compression length per 1mm/s extruder speed, per extruder
@@ -3085,7 +3085,7 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(X)
-    #define X_CURRENT       600        // (mA) RMS current. Multiply by 1.414 for peak current.  ##??800
+    #define X_CURRENT       1000        // (mA) RMS current. Multiply by 1.414 for peak current.  ##??800
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for homing. (Typically lower than *_CURRENT.)
     #define X_MICROSTEPS     16        // 0..256
     #define X_RSENSE          0.11
@@ -3105,7 +3105,7 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(Y)
-    #define Y_CURRENT       600 //@@##800
+    #define Y_CURRENT       1000 //@@##800
     #define Y_CURRENT_HOME  Y_CURRENT
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
@@ -3225,7 +3225,7 @@
   #endif
 
   #if AXIS_IS_TMC_CONFIG(E0)
-    #define E0_CURRENT      750 //@@?TMC-UART (default: 800)
+    #define E0_CURRENT      900 //@@?TMC-UART (default: 800)
     #define E0_MICROSTEPS    16
     #define E0_RSENSE         0.11
     #define E0_CHAIN_POS     -1
@@ -3484,9 +3484,9 @@
    */
   #define HYBRID_THRESHOLD //@@TMC-UART
 
-  #define X_HYBRID_THRESHOLD     150  // [mm/s] //@@TMC-UART (default 100)
+  #define X_HYBRID_THRESHOLD     30  // [mm/s] //@@TMC-UART (default 100)
   #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     150 //@@TMC-UART (default 100)
+  #define Y_HYBRID_THRESHOLD     30 //@@TMC-UART (default 100)
   #define Y2_HYBRID_THRESHOLD    100
   #define Z_HYBRID_THRESHOLD       8 //@@TMC-UART (default 3)
   #define Z2_HYBRID_THRESHOLD      3
@@ -3498,7 +3498,7 @@
   #define U_HYBRID_THRESHOLD       3  // [mm/s]
   #define V_HYBRID_THRESHOLD       3
   #define W_HYBRID_THRESHOLD       3
-  #define E0_HYBRID_THRESHOLD     50 //@@TMC-UART (default 30, was 40)
+  #define E0_HYBRID_THRESHOLD     1 // @@TMC-UART (default 30, was 40)
   #define E1_HYBRID_THRESHOLD     30
   #define E2_HYBRID_THRESHOLD     30
   #define E3_HYBRID_THRESHOLD     30
